@@ -1,0 +1,51 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that:
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - test_pre_ulimit_1
+
+- name: Test that /etc/profile file exists. Part B
+  stat:
+    path: /etc/profile
+  register: p
+  tags:
+    - test_pre_ulimit_1
+
+- name: Test that /etc/profile file exists. Part C
+  assert:
+    that:
+      - p.stat.exists and p.stat.path
+  tags:
+    - test_pre_ulimit_1
+
+
+################# Make the change ###################
+- name: Set ulimit as per build standard in /etc/profile
+  lineinfile:
+    path: /etc/profile
+    #line: "ulimit -S -c 0 >/dev/null 2>&1"
+    line: "{{ulimit_var_1}}"
+    regexp: ulimit
+    insertafter: (?i) pathmunge
+    state: present
+  tags:
+    - set_ulimit
+
+
+###################### Test #######################
+- name: Test that ulimit is set. Part A
+  shell: /bin/cat /etc/profile
+  register: cmd_result
+  tags:
+    - test_post_ulimit_1
+
+- name: Test that ulimit is set. Part B
+  assert:
+    that:
+      - "ulimit_var_1 in cmd_result.stdout"
+      - "'error' not in cmd_result.stderr"
+  tags:
+    - test_post_ulimit_1
