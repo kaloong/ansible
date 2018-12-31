@@ -1,0 +1,4 @@
+---
+FILE_SYSCTL_SRCPATH      : /etc/sysctl.d/99-sysctl.conf
+FILE_SYSCTL_DESTPATH     : /etc/sysctl.d/99-sysctl.conf
+TEMPLATE_RSYSLOG_SRC     : "{{role_path}}/templates/00-syslog.conf.j2"
