@@ -1,0 +1,110 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that: 
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - set_sshd 
+    - test_pre_sshd_1
+
+- name: Test that {{FILE_SSHD_CONFIG}} file exists. Part B
+  stat: 
+    path: "{{FILE_SSHD_CONFIG}}"
+  register: p
+  tags:
+    - set_sshd 
+    - test_pre_sshd_1
+
+- name: Test that {{FILE_SSHD_CONFIG}} file exists. Part C
+  assert:
+    that:
+      - p.stat.exists and p.stat.path
+  tags:
+    - set_sshd 
+    - test_pre_sshd_1
+
+
+################# Make the change ###################
+- name: Set SSHD hardened MACs 
+  lineinfile:
+    path: "{{FILE_SSHD_CONFIG}}"
+    line: "{{SSHD_APPROVED_MACS}}"
+    regexp: "{{SSHD_APPROVED_MACS_REGEXP}}"
+    validate: "{{SSHD_VALIDATE}}"
+    #validate: sshd -t -f %s
+    state: present
+  tags:
+    - set_sshd
+
+- name: Set SSHD hardened Ciphers 
+  lineinfile:
+    path: "{{FILE_SSHD_CONFIG}}"
+    line: "{{SSHD_APPROVED_CIPHERS}}"
+    regexp: "{{SSHD_APPROVED_CIPHERS_REGEXP}}"
+    validate: "{{SSHD_VALIDATE}}"
+    state: present
+  tags:
+    - set_sshd
+
+- name: Set SSHD PermitRootLogin to no 
+  lineinfile:
+    path: "{{FILE_SSHD_CONFIG}}"
+    line: "{{SSHD_PERMIT_ROOT_LOGIN}}"
+    regexp: "{{SSHD_PERMIT_ROOT_LOGIN_REGEXP}}"
+    validate: "{{SSHD_VALIDATE}}"
+    state: present
+  tags:
+    - set_sshd
+
+- name: Set SSHD PrintLastLog to yes 
+  lineinfile:
+    path: "{{FILE_SSHD_CONFIG}}"
+    line: "{{SSHD_PRINT_LASTLOG}}"
+    regexp: "{{SSHD_PRINT_LASTLOG_REGEXP}}"
+    validate: "{{SSHD_VALIDATE}}"
+    state: present
+  tags:
+    - set_sshd
+
+- name: Set SSHD Banner 
+  lineinfile:
+    path: "{{FILE_SSHD_CONFIG}}"
+    line: "{{SSHD_BANNER_ISSUE}}"
+    regexp: "{{SSHD_BANNER_ISSUE_REGEXP}}"
+    validate: "{{SSHD_VALIDATE}}"
+    state: present
+  notify: 
+    - restart sshd
+  tags:
+    - set_sshd
+
+####################### Apply #######################
+- name: Ensure sshd is running.
+  service:
+    name: sshd 
+    state: started
+  tags:
+    - set_sshd
+
+####################### Test #######################
+- name: Test that sshd is set. Part A
+  shell: /bin/cat {{FILE_SSHD_CONFIG}}
+  register: cmd_result 
+  tags: 
+    - set_sshd 
+    - test_post_sshd_1
+
+- name: Test that sshd is set. Part B
+  assert:
+    that:
+      - "'{{SSHD_APPROVED_MACS}}' in cmd_result.stdout"
+      - "'{{SSHD_APPROVED_CIPHERS}}' in cmd_result.stdout"
+      - "'{{SSHD_PERMIT_ROOT_LOGIN}}' in cmd_result.stdout"
+      - "'{{SSHD_PRINT_LASTLOG}}' in cmd_result.stdout"
+      - "'{{SSHD_BANNER_ISSUE}}' in cmd_result.stdout"
+      - "'error' not in cmd_result.stderr"
+  tags: 
+    - set_sshd 
+    - test_post_sshd_1
+

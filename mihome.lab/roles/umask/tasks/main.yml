@@ -1,0 +1,53 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that: 
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - set_umask
+    - test_pre_umask_1
+
+- name: Test that {{ETC_PROFILE}} file exists. Part B
+  stat: 
+    path: "{{ETC_PROFILE}}"
+  register: p
+  tags:
+    - set_umask
+    - test_pre_umask_1
+
+- name: Test that {{ETC_PROFILE}} file exists. Part C
+  assert:
+    that:
+      - p.stat.exists and p.stat.path
+  tags:
+    - set_umask
+    - test_pre_umask_1
+
+################# Make the change ###################
+- name: Set umask to 027 in {{ ETC_PROFILE}}.
+  lineinfile:
+    path: "{{ETC_PROFILE}}"
+    line: "{{UMASK_VAR_1}}"
+    regexp: umask
+    insertafter: (?i) umask 002
+    state: present
+  tags:
+    - set_umask
+
+###################### Test #######################
+- name: Test that umask is set in {{ETC_PROFILE}}. Part A
+  shell: "/bin/cat {{ETC_PROFILE}}"
+  register: cmd_result 
+  tags: 
+    - set_umask
+    - test_post_umask_1
+
+- name: Test that umask is set in {{ETC_PROFILE}}. Part B
+  assert:
+    that:
+      - "'{{UMASK_VAR_1}}' in cmd_result.stdout"
+      - "'error' not in cmd_result.stderr"
+  tags: 
+    - set_umask
+    - test_post_umask_1

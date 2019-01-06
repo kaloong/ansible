@@ -1,0 +1,10 @@
+{# notes: template for rsyslog
+Determine with rsyslog host to forward to.
+#}
+{% if '10.710.1.1' in hostvars[inventory_hostname]['ansible_default_ipv4']['address'] %}
+*.*     @10.1.1.10:514
+{% elif '10.2' in hostvars[inventory_hostname]['ansible_default_ipv4']['address'] %}
+*.*     @10.2.2.10:514
+{% else %}
+*.*     @10.2.2.10:514
+{% endif %}

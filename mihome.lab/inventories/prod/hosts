@@ -1,0 +1,67 @@
+[local]
+localhost
+
+[EU:children]
+DC1
+DC2
+
+[DC1:children]
+DC1_ADM
+DC1_MX
+DC1_DNS
+
+[DC2:children]
+DC2_ADM
+DC2_MX
+DC2_DNS
+
+[DC1_ADM:children]
+adm1.local.xyz
+
+[DC1_MX:children]
+mx1.local.xyz
+
+[DC1_DNS:children]
+dns1.local.xyz
+dns5.local.xyz
+dns6.local.xyz
+
+
+[DC2_ADM:children]
+
+[DC2_MX:children]
+mx2.local.xyz
+
+[DC2_DNS:children]
+dns7.local.xyz
+dns8.local.xyz
+
+
+[DC1_SOL]
+sol1.local.xyz ansible_python_interpreter=/usr/local/bin/python
+
+[DC1_SOL:vars]
+ansible_ssh_common_args='-o KexAlgorithms=diffie-hellman-group1-sha1 -o StrictHostKeyChecking=no -o ControlMaster=no'
+
+[DC2_SOL]
+sol2.local.xyz ansible_python_interpreter=/usr/local/bin/python
+
+[DC2_SOL:vars]
+ansible_ssh_common_args='-o KexAlgorithms=diffie-hellman-group1-sha1 -o StrictHostKeyChecking=no -o ControlMaster=no'
+
+
+[template_build:children]
+DC1_BUILD
+DC2_BUILD
+
+[DC1_BUILD:children]
+DC1_BUILD
+
+[DC2_BUILD:children]
+DC2_BUILD
+
+[DC1_BUILD]
+build1.local.xyz ansible_ssh_host=10.11.x.x
+
+[DC2_BUILD]
+build2.local.xyz ansible_ssh_host=10.11.x.x

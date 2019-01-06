@@ -1,0 +1,20 @@
+---
+TEMPLATE_LOGINDEFS_SRC      : "{{role_path}}/templates/login.defs.j2"
+TEMPLATE_LOGINDEFS_DEST     : /etc/login.defs
+VAR_DCREDIT                 : "-1"
+VAR_MINLEN                  : "8"
+VAR_UCREDIT                 : "-1"
+VAR_OCREDIT                 : "-1"
+VAR_MAIL_DIR                : /var/spool/mail
+VAR_PASS_MAX_DAYS           : "28"
+VAR_PASS_MIN_DAYS           : "0"
+VAR_PASS_MIN_LEN            : "8"
+VAR_PASS_WARN_AGE           : "7"
+VAR_UID_MIN                 : "500"
+VAR_UID_MAX                 : "60000"
+VAR_GID_MIN                 : "500"
+VAR_GID_MAX                 : "60000"
+VAR_CREATE_HOME             : "yes"
+VAR_UMASK                   : "077"
+VAR_USERGROUPS_ENAB         : "yes"
+VAR_ENCRYPT_METHOD          : "SHA512"

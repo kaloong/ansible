@@ -1,0 +1,2 @@
+ansible-vault encrypt_string --vault-id snmp_vault_com_02@vault_creds 'monitor123' --name snmp_com_string_new
+ansible-vault encrypt_string --vault-id @vault_creds 'xyz' --name ldap_joiner_pass

@@ -1,0 +1,5 @@
+[local]
+localhost
+
+[DC1_BUILD]
+v01.mihome.lab ansible_ssh_common_args='-o StrictHostKeyChecking=no' ansible_python_interpreter=python2.6

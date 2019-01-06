@@ -1,0 +1,3 @@
+---
+FILE_MOTD_SRCPATH              : motd
+FILE_MOTD_DESTPATH             : /etc/motd

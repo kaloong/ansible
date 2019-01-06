@@ -1,0 +1,3 @@
+---
+FILE_BANNER_SRCPATH              : banner
+FILE_BANNER_DESTPATH             : /etc/issue

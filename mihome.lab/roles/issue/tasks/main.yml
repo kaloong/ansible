@@ -1,0 +1,38 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that: 
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - set_issue 
+    - test_pre_issue_1
+
+- name: Test that {{FILE_ISSUE_SRCPATH}} file exists. Part B
+  stat: 
+    path: "{{FILE_ISSUE_DESTPATH}}"
+  register: p
+  tags:
+    - set_issue 
+    - test_pre_issue_1
+
+- name: Test that {{FILE_ISSUE_SRCPATH}} file exists. Part C
+  assert:
+    that:
+      - p.stat.exists and p.stat.path
+  tags:
+    - set_issue 
+    - test_pre_issue_1
+
+################# Make the change ###################
+
+- name: Copy issue file.
+  copy:
+    src: "{{FILE_ISSUE_SRCPATH}}"
+    dest: "{{FILE_ISSUE_DESTPATH}}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  tags:
+    - set_issue

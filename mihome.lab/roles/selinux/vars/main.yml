@@ -1,0 +1,3 @@
+---
+VAR_SELINUXTYPE          : targeted
+VAR_SELINUX              : permissive

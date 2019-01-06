@@ -1,0 +1,39 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that: 
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - set_banner
+    - test_pre_banner_1
+
+- name: Test that {{FILE_BANNER_SRCPATH}} file exists. Part B
+  stat: 
+    path: "{{FILE_BANNER_DESTPATH}}"
+  register: p
+  tags:
+    - set_banner
+    - test_pre_banner_1
+
+- name: Test that {{FILE_BANNER_SRCPATH}} file exists. Part C
+  assert:
+    that:
+      - p.stat.exists and p.stat.path
+  tags:
+    - set_banner
+    - test_pre_banner_1
+
+
+################# Make the change ###################
+
+- name: Copy motd file.
+  copy:
+    src: "{{FILE_BANNER_SRCPATH}}"
+    dest: "{{FILE_BANNER_DESTPATH}}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  tags:
+    - set_banner

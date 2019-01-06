@@ -1,0 +1,10 @@
+---
+#- name: sshd started
+#  service:
+#    name: sshd
+#    state: started
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted

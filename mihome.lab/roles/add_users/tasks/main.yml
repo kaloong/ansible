@@ -1,0 +1,36 @@
+---
+- name: Add user
+  user:
+    name: satman
+    comment: Satellite user
+    #expires: -1 
+    state: present
+
+- name: Create .ssh directory
+  file:
+    path: /home/satman/.ssh
+    state: directory
+    owner: satman
+    group: satman
+    mode: 0700
+    recurse: no
+
+- name: Allow 'satman' sudo passwordless
+  lineinfile:
+    path: /etc/sudoers
+    line: 'satman ALL=NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+
+- name: Download Satman pubkey
+  get_url:
+    url: https://v-msat01p:9090/ssh/pubkey
+    dest: /home/satman/.ssh/authorized_keys
+    validate_certs: no
+    owner: satman
+    group: satman
+    mode: 0600
+    checksum: md5:ac5adb401e7124eb3a12997b0ba9dec0 
+
+- name: Reenforce user account expiry.
+  command: /usr/bin/passwd -x -1 satman 

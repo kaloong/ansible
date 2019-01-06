@@ -1,0 +1,4 @@
+---
+FILE_RSYSLOG_SRCPATH     : /etc/rsyslog.conf
+TEMPLATE_RSYSLOG_SRC     : "{{role_path}}/templates/00-syslog.conf.j2"
+TEMPLATE_RSYSLOG_DEST    : /etc/rsyslog.d/00-syslog.conf
