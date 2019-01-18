@@ -2,19 +2,33 @@
 - hosts: localhost
   gather_facts: false
   connection: local
-  
+  vars:
+    vmdeployer_pass_02: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;svc_vmdeployer_02
+          66313138376164646438383131626335663036643961623461356332643738626535633838303633
+          3766646339333064386666393839643836623530666161380a613866303634343831306262373965
+          38346338613662613730356461356665343232636534393436356232376330613037663565653934
+          3361653232613962350a326333373534626439316466636362376133303263656531383964613138
+          3831
+    vmdeployer_pass_01: !vault |
+          $ANSIBLE_VAULT;1.2;AES256;svc_vmdeployer_01
+          33386134356639313637363931356266376533383866623638633733646230656634313334626532
+          3339613836313263633633383638636234666339633438340a633230373562373031636364336334
+          36653730663561666237616662323834353236303136613664633032663766653865623561393536
+          3231383739313962350a323163386432363531623830663738653064633932393933306361613530
+          3137
   tasks:
   - name: Create a vm
     vmware_guest:
       hostname: 172.16.21.30
       username: svc_vmdeployer@mega.lan
-      password: '{{ svc_vmdeployer_pass }}'
+      password: '{{ vmdeployer_pass_02 }}'
       datacenter: mihome.lab
       validate_certs: no
       folder: /vm/
-      name: test_vm_00055555
+      name: test_vm_0001
       state: poweredon
-      guest_id: centos64guest
+      guest_id: centos7_64guest
       esxi_hostname: 172.16.21.20
       cdrom:
         type: iso
@@ -29,9 +43,14 @@
         scsi: paravirtual
       networks:
       - name: VM Network
-        ip: 172.16.21.105
+        ip: 172.16.21.101
         netmask: 255.255.255.0
         device_type: vmxnet3
-      wait_for_ip_address: yes
+      wait_for_ip_address: True
+      state: present
     delegate_to: localhost
-    register: deploy
+    register: newly_deployed_vm
+
+  - name: IP address info
+    debug:
+      msg: "{{ newly_deployed_vm.instance.ipv4 }} {{ name }}"
