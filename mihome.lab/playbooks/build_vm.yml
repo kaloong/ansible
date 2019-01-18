@@ -1,0 +1,37 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  
+  tasks:
+  - name: Create a vm
+    vmware_guest:
+      hostname: 172.16.21.30
+      username: svc_vmdeployer@mega.lan
+      password: '{{ svc_vmdeployer_pass }}'
+      datacenter: mihome.lab
+      validate_certs: no
+      folder: /vm/
+      name: test_vm_00055555
+      state: poweredon
+      guest_id: centos64guest
+      esxi_hostname: 172.16.21.20
+      cdrom:
+        type: iso
+        iso_path: "[SkullDataStore] TinyCore-current.iso"
+      disk:
+      - size_gb: 10
+        type: thin
+        datastore: ESK00_SSD_1T
+      hardware:
+        memory_mb: 512
+        num_cpus: 1
+        scsi: paravirtual
+      networks:
+      - name: VM Network
+        ip: 172.16.21.105
+        netmask: 255.255.255.0
+        device_type: vmxnet3
+      wait_for_ip_address: yes
+    delegate_to: localhost
+    register: deploy
