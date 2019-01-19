@@ -1,6 +1,48 @@
 ---
-- name: Create kickstart file
-  template:
-    src: kickstart.cfg.j2
-    dest: "{{ inventory_dir }}/build/{{ inventory_hostname }}.cfg"
+#- name: Create kickstart file
+#  template:
+#    src: kickstart.cfg.j2
+#    dest: "{{ inventory_dir }}/build/{{ inventory_hostname }}.cfg"
+#
+# Build ISO first then provision VM in VMWare?
+# or
+# Build VM first then provision ISO?
+#
+#
+- name: Create tmp directory
+  shell: mktemp -d
+  register: tmpout
 
+- name: 
+  stat: 
+    path: "{{ tmpout.stdout }}"
+  register: tmpdir
+
+- debug:
+    msg: "New directory  {{ tmpdir }}"
+  when: tmpdir.stat.exists
+- name: Download boot images
+  shell: wget mirror.centos.org/centos/6/os/x86_64/isolinux/boot.msg
+  args:
+    chdir: "{{ tmpdir.stat.path }}"
+    executable: /bin/bash
+
+- name: Generate kickstart file
+  template:
+    src: kickstart6.ks.j2
+    dest: "{{ tmpdir.stat.path }}/{{ inventory_hostname }}.ks"
+
+- name: Generate isolinux config file
+  template:
+    src: isolinux6.cfg.j2
+    dest: "{{ tmpdir.stat.path }}/isolinux.cfg"
+
+#- name: Generate boot ISO
+#- name: Remove tmp directory
+#  file:
+#    state: absent
+#    path: "{{ tmpdir.stat.path }}" 
+#  when: tmpdir.stat.exists
+#
+#  
+#
