@@ -1,17 +1,41 @@
+
+# Install OS instead of upgrade
 install
-cdrom
+# Firewall configuration
+firewall --enabled --ssh
+# Keyboard layouts
+keyboard 'us'# Use network installation
+url --url="http://mirror.centos.org/centos/6/os/x86_64"
+# Network information
+network --hostname {{ inventory_hostname }} --device=eth0 --bootproto=static --ip {{ netip }} --netmask {{ netmask }} --gateway {{ netgw }} --nameserver 172.16.30.100
+# Reboot after installation
+reboot
+# Root password
+rootpw --iscrypted $1$wRM7oByu$BO7DkoYRveZNgRcSX89jt.
+# System timezone
+timezone America/Sao_Paulo
+# System authorization information
+auth  --useshadow  --passalgo=md5
+# Use text mode install
+text
+# System language
+lang en_US
+# SELinux configuration
+selinux --enforcing
+# Do not configure the X Window System
+skipx
 
-keyboard --vckeymap=gb --xlayouts='gb'
-lang en_GB.UTF-8
-timezone Europe/London --isUtc
+# System bootloader configuration
+bootloader --location=mbr
+# Clear the Master Boot Record
+zerombr
+# Partition clearing information
+clearpart --all
+# Auto-partition
+autopart
 
-network --hostname={{ inventory_hostname }}
-
-%packages
-
-python
-python-dnf
-libselinux-python
-libsemanage-python
-
+%packages --nobase --excludedocs
+@base
+vim
 %end
+

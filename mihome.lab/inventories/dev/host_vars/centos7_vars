@@ -1,6 +1,0 @@
-guest_id: 		centos7_64Guest
-guest_iso_path: 	"[SkullDataStore] dev_vm_0011.iso"
-guest_disk_type: 	thin
-guest_disk_size: 	10
-guest_mem_size:		512
-guest_cpus: 		1

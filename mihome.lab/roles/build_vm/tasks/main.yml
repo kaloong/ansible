@@ -9,7 +9,8 @@
     folder: '{{ deployment_folder }}'
     name: '{{ inventory_hostname }}'
     #state: poweredon
-    state: '{{ vm_state }}'
+    state: '{{ guest_vm_state }}'
+    force: '{{ guest_vm_force }}'
     guest_id: '{{ guest_id }}'
     esxi_hostname: '{{ esxi_host }}'
     cdrom:
