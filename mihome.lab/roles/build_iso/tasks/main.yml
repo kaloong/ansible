@@ -12,37 +12,88 @@
 - name: Create tmp directory
   shell: mktemp -d
   register: tmpout
+  tags:
+    - build_iso 
 
 - name: 
   stat: 
     path: "{{ tmpout.stdout }}"
   register: tmpdir
+  tags:
+    - build_iso 
 
 - debug:
     msg: "New directory  {{ tmpdir }}"
   when: tmpdir.stat.exists
-- name: Download boot images
-  shell: wget mirror.centos.org/centos/6/os/x86_64/isolinux/boot.msg
-  args:
-    chdir: "{{ tmpdir.stat.path }}"
-    executable: /bin/bash
+  tags:
+    - build_iso 
+
+#- name: Download boot images
+#  shell: wget mirror.centos.org/centos/6/os/x86_64/isolinux/boot.msg
+#  args:
+#    chdir: "{{ tmpdir.stat.path }}"
+#    executable: /bin/bash
+
+#- name: Download 
+#  get_url: 
+#    url: http://mirror.centos.org/centos/6/os/x86_64/isolinux/{{ item }}
+#    dest: "{{ tmpdir.stat.path }}/"
+#  with_items:
+#    - "isolinux.cfg"
+#    - "boot.msg"
+#    - "splash.jpg"  
+- name: Create isolinux directory in tmp
+  file:
+    path: "{{ tmpdir.stat.path }}/isolinux"
+    state: directory
+    mode: 0755
+  tags:
+    - build_iso 
+
+- name: Download isolinux boot files 
+  get_url: 
+    url: "http://mirror.centos.org/centos/6/os/x86_64/isolinux/{{ item }}"
+    dest: "{{ tmpdir.stat.path }}/isolinux/"
+  with_items: "{{ centos6_boot_files }}"
+  tags:
+    - build_iso 
 
 - name: Generate kickstart file
   template:
     src: kickstart6.ks.j2
-    dest: "{{ tmpdir.stat.path }}/{{ inventory_hostname }}.ks"
+    dest: "{{ tmpdir.stat.path }}/isolinux/{{ inventory_hostname }}.ks"
+  tags:
+    - build_iso 
 
 - name: Generate isolinux config file
   template:
     src: isolinux6.cfg.j2
-    dest: "{{ tmpdir.stat.path }}/isolinux.cfg"
+    dest: "{{ tmpdir.stat.path }}/isolinux/isolinux.cfg"
+  tags:
+    - build_iso 
 
-#- name: Generate boot ISO
-#- name: Remove tmp directory
-#  file:
-#    state: absent
-#    path: "{{ tmpdir.stat.path }}" 
-#  when: tmpdir.stat.exists
-#
-#  
-#
+- name: Generate boot ISO
+  shell: xorrisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  register: build_out
+  tags:
+    - build_iso 
+
+- debug:
+    msg: "{{ build_out }}"
+  tags:
+    - build_iso 
+
+- name: Transfer file to SkullDataStore
+  copy:
+    src: "/tmp/{{ inventory_hostname }}.iso"
+    dest: /data/
+  tags:
+    - build_iso 
+
+- name: Remove tmp directory
+  file:
+    state: absent
+    path: "{{ tmpdir.stat.path }}" 
+  when: tmpdir.stat.exists
+  tags:
+    - build_iso 

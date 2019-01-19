@@ -32,9 +32,11 @@
       device_type: vmxnet3
     wait_for_ip_address: False
   delegate_to: localhost
+  tags:
+    - build_vm
+
   #  register: newly_deployed_vm
 
   #- debug:
   #  msg: "{{ newly_deployed_vm.instance.ipv4 }}........"
   #  when: newly_deployed_vm.instance is defined
-

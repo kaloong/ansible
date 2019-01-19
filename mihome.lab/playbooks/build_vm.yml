@@ -7,4 +7,5 @@
   gather_facts: false
   connection: local
   roles: 
+    - ../roles/build_iso 		# VMWware roles
     - ../roles/build_vm 		# VMWware roles

@@ -11,15 +11,15 @@ network --hostname {{ inventory_hostname }} --device=eth0 --bootproto=static --i
 # Reboot after installation
 reboot
 # Root password
-rootpw --iscrypted $1$wRM7oByu$BO7DkoYRveZNgRcSX89jt.
+rootpw --iscrypted $1$RooHER1A$cura3mrq43QyeXMxHt/Mt. 
 # System timezone
-timezone America/Sao_Paulo
+timezone Europe/London
 # System authorization information
 auth  --useshadow  --passalgo=md5
 # Use text mode install
 text
 # System language
-lang en_US
+lang en_GB
 # SELinux configuration
 selinux --enforcing
 # Do not configure the X Window System
