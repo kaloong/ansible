@@ -1,0 +1,6 @@
+---
+- name: Create kickstart file
+  template:
+    src: kickstart.cfg.j2
+    dest: "{{ inventory_dir }}/build/{{ inventory_hostname }}.cfg"
+

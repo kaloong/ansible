@@ -1,0 +1,39 @@
+---
+- name: Deploying new VM on VMWare
+  vmware_guest:
+    hostname: '{{ deployment_vcenter }}'
+    username: '{{ deployment_user }}'
+    password: '{{ deployment_pass }}'
+    datacenter: '{{ deployment_datacenter }}'
+    validate_certs: no
+    folder: '{{ deployment_folder }}'
+    name: '{{ inventory_hostname }}'
+    #state: poweredon
+    state: '{{ vm_state }}'
+    guest_id: '{{ guest_id }}'
+    esxi_hostname: '{{ esxi_host }}'
+    cdrom:
+      type: iso
+      iso_path: '{{ guest_iso_path }}'
+    disk:
+    - size_gb: '{{ guest_disk_size }}'
+      type: '{{ guest_disk_type }}'
+      datastore: '{{ datastore }}'
+    hardware:
+      memory_mb: '{{ guest_mem_size }}'
+      num_cpus: '{{ guest_cpus }}'
+      scsi: paravirtual
+    networks:
+    - name: '{{ vswitch }}'
+      mac: '{{ mac }}'
+      ip: '{{ netip }}'
+      netmask: '{{ netmask }}'
+      device_type: vmxnet3
+    wait_for_ip_address: False
+  delegate_to: localhost
+  #  register: newly_deployed_vm
+
+  #- debug:
+  #  msg: "{{ newly_deployed_vm.instance.ipv4 }}........"
+  #  when: newly_deployed_vm.instance is defined
+
