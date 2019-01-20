@@ -1,10 +1,10 @@
 ---
-- hosts: build_vms
+- hosts: esxi_hosts 
   vars_files: 
     - ../inventories/build/group_vars/deployment_vars
-    - ../inventories/build/host_vars/centos_vars
+    - ../inventories/build/host_vars/esxi_vars
   #become: true
   gather_facts: false
   connection: local
   roles: 
-    - ../roles/build_iso 	# VMWware roles
+    - ../roles/esxi_adm		# VMWware roles

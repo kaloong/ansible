@@ -1,4 +1,9 @@
 ---
+#- name: Check for required variables
+#  fail: 
+#    msg: "Must provide xxx to -e"
+#  when: ( something is not defined ) or  ( another thing is not defined )
+
 - name: Deploying new VM on VMWare
   vmware_guest:
     hostname: '{{ deployment_vcenter }}'

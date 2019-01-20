@@ -1,8 +1,8 @@
 ---
-- hosts: dev_vms
+- hosts: build_vms
   vars_files: 
-    - ../inventories/dev/group_vars/deployment_vars
-    - ../inventories/dev/host_vars/centos_vars
+    - ../inventories/build/group_vars/deployment_vars
+    - ../inventories/build/host_vars/centos_vars
   #become: true
   gather_facts: false
   connection: local

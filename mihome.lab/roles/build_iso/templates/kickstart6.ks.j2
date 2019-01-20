@@ -39,3 +39,6 @@ autopart
 vim
 %end
 
+#%post --log=/root/ks-post.log
+#/usr/sbin/subscription-manager register --username=admin@example.com --password=secret --serverurl=sam-server.example.com --org="Admin Group" --environment="Dev"
+#%end
