@@ -1,0 +1,19 @@
+---
+#- name: Check for required variables
+#  fail: 
+#    msg: "Must provide xxx to -e"
+#  when: ( something is not defined ) or  ( another thing is not defined )
+
+- name: Transfer boot iso to vCenter 
+  vsphere_copy:
+    host: '{{ deployment_vcenter }}'
+    login: '{{ deployment_user }}'
+    password: '{{ deployment_pass }}'
+    datacenter: '{{ deployment_datacenter }}'
+    datastore: '{{ deployment_iso_datastore }}'
+    src: '/tmp/{{ inventory_hostname }}.iso'
+    path: '{{ deployment_iso_path }}/{{ inventory_hostname }}.iso'
+    validate_certs: no
+  delegate_to: localhost
+  tags:
+    - vds_file_transfer

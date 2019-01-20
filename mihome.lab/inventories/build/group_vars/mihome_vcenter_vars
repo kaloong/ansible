@@ -9,3 +9,5 @@ deployment_pass: !vault |
       3965
 deployment_datacenter: mihome.lab
 deployment_folder: /vm
+deployment_iso_datastore: SkullDataStore
+deployment_iso_path: build_iso/

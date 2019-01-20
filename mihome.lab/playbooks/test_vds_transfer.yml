@@ -1,0 +1,8 @@
+---
+- hosts: build_vms
+  vars_files: 
+    - ../inventories/build/group_vars/mihome_vcenter_vars
+  gather_facts: true
+  connection: local
+  roles:
+    - ../roles/vds_file_transfer

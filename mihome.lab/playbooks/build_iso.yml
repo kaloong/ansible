@@ -7,4 +7,5 @@
   gather_facts: false
   connection: local
   roles: 
-    - ../roles/build_iso 	# VMWware roles
+    - ../roles/generate_bootiso 	# VMware roles
+    - ../roles/transfer_bootiso     # VMware roles
