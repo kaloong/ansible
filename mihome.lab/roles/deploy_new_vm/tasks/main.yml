@@ -38,7 +38,7 @@
     wait_for_ip_address: False
   delegate_to: localhost
   tags:
-    - build_vm
+    - deploy_new_vm
 
   #  register: newly_deployed_vm
 
