@@ -45,6 +45,14 @@
 #    - "isolinux.cfg"
 #    - "boot.msg"
 #    - "splash.jpg"  
+- name: Create local build_iso directory in tmp
+  file:
+    path: "/tmp/build_iso"
+    state: directory
+    mode: 0755
+  tags:
+    - build_iso 
+
 - name: Create isolinux directory in tmp
   file:
     path: "{{ tmpdir.stat.path }}/isolinux"
@@ -77,14 +85,14 @@
     - build_iso 
 
 - name: Generate boot ISO in ClearLinux
-  shell: xorrisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
   when: ansible_os_family == "ClearLinux"
   tags:
     - build_iso 
 
 - name: Generate boot ISO in OSX
-  shell: mkisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  shell: mkisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
   when: ansible_os_family == "Darwin"
   tags:
@@ -92,15 +100,6 @@
 
 - debug:
     msg: "{{ build_out }}"
-  tags:
-    - build_iso 
-
-- name: Transfer file to SkullDataStore if it is mounted.
-  copy:
-    src: "/tmp/{{ inventory_hostname }}.iso"
-    dest: /data/
-  with_items: "{{ ansible_mounts }}"
-  when: '"SkullDataStore" in item.device'
   tags:
     - build_iso 
 

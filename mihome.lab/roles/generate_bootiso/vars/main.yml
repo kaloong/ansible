@@ -6,9 +6,8 @@ iso_boot_files:
   - "grub.conf"
   - "memtest"
   - "isolinux.bin"
-# - "isolinux.cfg"
+  - "isolinux.cfg"
   - "splash.jpg"
   - "vesamenu.c32"
   - "vmlinuz"
   - "initrd.img"
-

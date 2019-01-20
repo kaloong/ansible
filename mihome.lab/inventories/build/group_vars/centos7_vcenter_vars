@@ -1,8 +1,7 @@
 guest_id: 		centos7_64Guest
-guest_iso_path: 	"[SkullDataStore] {{ inventory_hostname}}.iso"
 guest_disk_type: 	thin
 guest_disk_size: 	10
-guest_mem_size:		512
+guest_mem_size:		1024
 guest_cpus: 		1
 guest_vm_force:		no
 guest_vm_state:		present

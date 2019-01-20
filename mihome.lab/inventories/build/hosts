@@ -1,8 +1,8 @@
 [build_vms]
-build_vm_0011 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.111 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Sandbox #11"
-build_vm_0012 esxi_host=172.16.21.21 datastore="ESK01_SSD_250G" vswitch="VM Network" netip=172.16.21.112 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Sandbox #12"
-build_vm_0013 esxi_host=172.16.21.22 datastore="ESK02_SSD_250G" vswitch="VM Network" netip=172.16.21.113 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Sandbox #13"
-build_vm_0014 esxi_host=172.16.21.23 datastore="ESK03_SSD_250G" vswitch="VM Network" netip=172.16.21.114 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:04 netmask=255.255.255.0 guest_notes="Sandbox #14"
+VM_0011 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.111 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Sandbox #11"
+VM_0012 esxi_host=172.16.21.21 datastore="ESK01_SSD_250G" vswitch="VM Network" netip=172.16.21.112 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Sandbox #12"
+VM_0013 esxi_host=172.16.21.22 datastore="ESK02_SSD_250G" vswitch="VM Network" netip=172.16.21.113 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Sandbox #13"
+VM_0014 esxi_host=172.16.21.23 datastore="ESK03_SSD_250G" vswitch="VM Network" netip=172.16.21.114 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:04 netmask=255.255.255.0 guest_notes="Sandbox #14"
 
 [esxi_hosts]
 esk00 esxi_host=172.16.21.20

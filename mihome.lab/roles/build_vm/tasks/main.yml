@@ -20,7 +20,7 @@
     esxi_hostname: '{{ esxi_host }}'
     cdrom:
       type: iso
-      iso_path: '{{ guest_iso_path }}'
+      iso_path: "[{{deployment_iso_datastore }}] {{ deployment_iso_path }}"
     disk:
     - size_gb: '{{ guest_disk_size }}'
       type: '{{ guest_disk_type }}'

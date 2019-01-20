@@ -8,4 +8,4 @@
   connection: local
   roles: 
     - ../roles/generate_bootiso 	# VMware roles
-    - ../roles/transfer_bootiso     # VMware roles
+    - ../roles/vds_file_transfer     # VMware roles
