@@ -1,5 +1,7 @@
 ---
-centos6_boot_files:
+iso_image_url: "http://mirror.centos.org/centos/6/os/x86_64/isolinux/"
+
+iso_boot_files:
   - "boot.msg"
   - "grub.conf"
   - "memtest"
@@ -7,5 +9,6 @@ centos6_boot_files:
 # - "isolinux.cfg"
   - "splash.jpg"
   - "vesamenu.c32"
-  - "vmlinuz"
-  - "initrd.img"
+#  - "vmlinuz"
+#  - "initrd.img"
+

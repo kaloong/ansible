@@ -47,14 +47,14 @@
     path: "{{ tmpdir.stat.path }}/isolinux"
     state: directory
     mode: 0755
-  register: isolinux_target_dir  
+  register: isolinux_boot_dir  
   tags:
     - build_iso 
 
 - name: Download isolinux boot files 
   get_url: 
     url: "{{ iso_image_url }}{{ item }}"
-    dest: "{{ isolinux_target_dir }}"
+    dest: "{{ tmpdir.stat.path }}/isolinux/"
   with_items: "{{ iso_boot_files }}"
   tags:
     - build_iso 
@@ -62,14 +62,14 @@
 - name: Generate kickstart file
   template:
     src: kickstart6.ks.j2
-    dest: "{{ isolinux_target_dir }}/{{ inventory_hostname }}.ks"
+    dest: "{{ tmpdir.stat.path }}/isolinux/{{ inventory_hostname }}.ks"
   tags:
     - build_iso 
 
 - name: Generate isolinux config file
   template:
     src: isolinux6.cfg.j2
-    dest: "{{ isolinux_target_dir }}/isolinux.cfg"
+    dest: "{{ tmpdir.stat.path }}/isolinux/isolinux.cfg"
   tags:
     - build_iso 
 

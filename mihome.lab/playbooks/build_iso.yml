@@ -2,7 +2,7 @@
 - hosts: build_vms
   vars_files: 
     - ../inventories/build/group_vars/mihome_vcenter_vars
-    - ../inventories/build/group_vars/centos610_vars
+    - ../inventories/build/group_vars/centos610_vcenter_vars
   #become: true
   gather_facts: false
   connection: local
