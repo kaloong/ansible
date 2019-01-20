@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: true
+  connection: local
+  tasks:
+    - name: Is there a NFS mount
+      debug:
+        msg: "Tep "
+      when: '"nfs" in item.fstype'
+      with_items: "{{ ansible_mounts }}"
+

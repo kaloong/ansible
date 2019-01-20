@@ -76,10 +76,10 @@
   tags:
     - build_iso 
 
-- name: Generate boot ISO in FreeBSD
+- name: Generate boot ISO in ClearLinux
   shell: xorrisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_os_family == "ClearLinux"
   tags:
     - build_iso 
 
@@ -95,10 +95,12 @@
   tags:
     - build_iso 
 
-- name: Transfer file to SkullDataStore
+- name: Transfer file to SkullDataStore if it is mounted.
   copy:
     src: "/tmp/{{ inventory_hostname }}.iso"
     dest: /data/
+  with_items: "{{ ansible_mounts }}"
+  when: '"SkullDataStore" in item.device'
   tags:
     - build_iso 
 

@@ -9,6 +9,6 @@ iso_boot_files:
 # - "isolinux.cfg"
   - "splash.jpg"
   - "vesamenu.c32"
-#  - "vmlinuz"
-#  - "initrd.img"
+  - "vmlinuz"
+  - "initrd.img"
 
