@@ -9,6 +9,9 @@
 # Build VM first then provision ISO?
 #
 #
+- name: Enable gather facts for ansible_os_family
+  setup:
+
 - name: Create tmp directory
   shell: mktemp -d
   register: tmpout
@@ -54,7 +57,7 @@
 - name: Download isolinux boot files 
   get_url: 
     url: "{{ iso_image_url }}{{ item }}"
-    dest: "{{ isolinux_target_dir }}"
+    dest: "{{ isolinux_target_dir.path }}"
   with_items: "{{ iso_boot_files }}"
   tags:
     - build_iso 
@@ -62,20 +65,28 @@
 - name: Generate kickstart file
   template:
     src: kickstart6.ks.j2
-    dest: "{{ isolinux_target_dir }}/{{ inventory_hostname }}.ks"
+    dest: "{{ isolinux_target_dir.path }}/{{ inventory_hostname }}.ks"
   tags:
     - build_iso 
 
 - name: Generate isolinux config file
   template:
     src: isolinux6.cfg.j2
-    dest: "{{ isolinux_target_dir }}/isolinux.cfg"
+    dest: "{{ isolinux_target_dir.path }}/isolinux.cfg"
   tags:
     - build_iso 
 
-- name: Generate boot ISO
+- name: Generate boot ISO in FreeBSD
   shell: xorrisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
+  when: ansible_os_family == "Ubuntu"
+  tags:
+    - build_iso 
+
+- name: Generate boot ISO in OSX
+  shell: mkisofs -V "OEMDRV" -o "/tmp/{{ inventory_hostname }}.iso" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  register: build_out
+  when: ansible_os_family == "Darwin"
   tags:
     - build_iso 
 
