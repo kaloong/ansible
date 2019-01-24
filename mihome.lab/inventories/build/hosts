@@ -4,6 +4,9 @@ VM_0012 esxi_host=172.16.21.21 datastore="ESK01_SSD_250G" vswitch="VM Network" n
 VM_0013 esxi_host=172.16.21.22 datastore="ESK02_SSD_250G" vswitch="VM Network" netip=172.16.21.113 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Sandbox #13"
 VM_0014 esxi_host=172.16.21.23 datastore="ESK03_SSD_250G" vswitch="VM Network" netip=172.16.21.114 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:04 netmask=255.255.255.0 guest_notes="Sandbox #14"
 
+[newbuild_vm]
+VM_0015 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.115 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Sandbox #15"
+
 [esxi_hosts]
 esk00 esxi_host=172.16.21.20
 esk01 esxi_host=172.16.21.21

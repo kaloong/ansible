@@ -16,20 +16,20 @@
   shell: mktemp -d
   register: tmpout
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: 
   stat: 
     path: "{{ tmpout.stdout }}"
   register: tmpdir
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - debug:
     msg: "New directory  {{ tmpdir }}"
   when: tmpdir.stat.exists
   tags:
-    - build_iso 
+    - build_bootiso 
 
 #- name: Download boot images
 #  shell: wget mirror.centos.org/centos/6/os/x86_64/isolinux/boot.msg
@@ -45,13 +45,13 @@
 #    - "isolinux.cfg"
 #    - "boot.msg"
 #    - "splash.jpg"  
-- name: Create local build_iso directory in tmp
+- name: Create local build_bootiso directory in tmp
   file:
-    path: "/tmp/build_iso"
+    path: "/tmp/build_bootiso"
     state: directory
     mode: 0755
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Create isolinux directory in tmp
   file:
@@ -60,7 +60,7 @@
     mode: 0755
   register: isolinux_target_dir  
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Download isolinux boot files 
   get_url: 
@@ -68,40 +68,40 @@
     dest: "{{ isolinux_target_dir.path }}"
   with_items: "{{ iso_boot_files }}"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Generate kickstart file
   template:
     src: kickstart6.ks.j2
     dest: "{{ isolinux_target_dir.path }}/{{ inventory_hostname }}.ks"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Generate isolinux config file
   template:
     src: isolinux6.cfg.j2
     dest: "{{ isolinux_target_dir.path }}/isolinux.cfg"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Generate boot ISO in ClearLinux
   shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
   when: ansible_os_family == "ClearLinux"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Generate boot ISO in OSX
   shell: mkisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
   register: build_out
   when: ansible_os_family == "Darwin"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - debug:
     msg: "{{ build_out }}"
   tags:
-    - build_iso 
+    - build_bootiso 
 
 - name: Remove tmp directory
   file:
@@ -109,4 +109,4 @@
     path: "{{ tmpdir.stat.path }}" 
   when: tmpdir.stat.exists
   tags:
-    - build_iso 
+    - build_bootiso 

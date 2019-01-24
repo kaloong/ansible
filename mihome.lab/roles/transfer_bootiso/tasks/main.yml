@@ -14,17 +14,17 @@
     #src: '/tmp/{{ inventory_hostname }}.iso'
     #path: '{{ deployment_iso_path }}/{{ inventory_hostname }}.iso'
     src: '{{ bootiso_local_dir }}/{{ bootiso_filename }}'
-    path: '{{ deployment_iso_path }}/{{ bootiso_filename }}'
+    path: '{{ deployment_iso_path }}'
     validate_certs: no
   delegate_to: localhost
   tags:
-    - vds_file_transfer
+    - via_vsphere
 
-#- name: Transfer file to SkullDataStore if it is mounted.
-#  copy:
-#    src: "{{ iso_local_target_dir }}{{ iso_local_target_filename }}"
-#    dest: /data/
-#  with_items: "{{ ansible_mounts }}"
-#  when: '"SkullDataStore" in item.device'
-#  tags:
-#    - build_iso 
+- name: Transfer file to SkullDataStore if it is mounted.
+  copy:
+    src: "{{ iso_local_target_dir }}{{ iso_local_target_filename }}"
+    dest: /data/
+  with_items: "{{ ansible_mounts }}"
+  when: '"SkullDataStore" in item.device'
+  tags:
+    - via_nfs

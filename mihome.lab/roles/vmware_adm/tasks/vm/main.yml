@@ -18,6 +18,7 @@
     force: '{{ guest_vm_force }}'
     guest_id: '{{ guest_id }}'
     esxi_hostname: '{{ esxi_host }}'
+    is_template: '{{ deployment_is_template }}'
     cdrom:
       type: iso
       iso_path: "[{{deployment_iso_datastore }}] {{ deployment_iso_path }}"
@@ -38,8 +39,25 @@
     wait_for_ip_address: False
   delegate_to: localhost
   tags:
-    - deploy_new_vm
+    - deploy_vm
 
+- name: Destroy VM on VMWare
+  vmware_guest:
+    hostname: '{{ deployment_vcenter }}'
+    username: '{{ deployment_user }}'
+    password: '{{ deployment_pass }}'
+    datacenter: '{{ deployment_datacenter }}'
+    validate_certs: no
+    folder: '{{ deployment_folder }}'
+    name: '{{ inventory_hostname }}'
+    #state: poweredon
+    state: '{{ guest_vm_state }}'
+    force: '{{ guest_vm_force }}'
+    guest_id: '{{ guest_id }}'
+    esxi_hostname: '{{ esxi_host }}'
+  delegate_to: localhost
+  tags:
+    - destroy_vm
   #  register: newly_deployed_vm
 
   #- debug:

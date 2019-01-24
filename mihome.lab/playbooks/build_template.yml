@@ -1,0 +1,13 @@
+---
+- hosts: newbuild_vm
+  vars_files: 
+    - ../inventories/build/group_vars/mihome_vcenter_vars
+    - ../inventories/build/group_vars/centos610_vcenter_vars
+  #become: true
+  gather_facts: true
+  connection: local
+  roles: 
+    - ../roles/generate_bootiso       # Generate bootisos
+    - ../roles/vds_file_transfer      # Transfer bootisos to DataStore
+    - ../roles/deploy_new_vm          # Deploy VMs with bootisos
+    - ../roles/convert_to_template    # Deploy VMs with bootisos
