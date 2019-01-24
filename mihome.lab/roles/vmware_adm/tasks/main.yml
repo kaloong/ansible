@@ -1,0 +1,7 @@
+---
+- name: Adding vm tasks
+  import_tasks: vm/vm.yml
+
+- name: Addming esxi tasks
+  import_tasks: esxi/esxi.yml
+  when: host_state is defined and host_force is defined

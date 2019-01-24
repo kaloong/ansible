@@ -1,4 +1,4 @@
-bootiso_local_dir: /tmp/build_iso 
+bootiso_local_dir: /tmp/bootiso 
 #bootiso_filename: "{{ '%Y%m%d' | strftime( ansible_date_time.epoch ) }}_{{ inventory_hostname }}.iso"
 bootiso_filename: "{{ inventory_hostname }}.iso"
 
@@ -15,5 +15,4 @@ deployment_datacenter: mihome.lab
 deployment_is_template: no
 deployment_folder: /vm
 deployment_iso_datastore: SkullDataStore
-deployment_iso_path: "build_iso/{{ bootiso_filename }}"
-
+deployment_iso_path: "bootiso/{{ bootiso_filename }}"
