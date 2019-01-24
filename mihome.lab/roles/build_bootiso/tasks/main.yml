@@ -66,21 +66,21 @@
   debug:
     msg: "... {{ isolinux_os_version }} ..."
 
-- name: Download isolinux boot files 
+- name: Download isolinux 6 boot files 
   get_url: 
     url: "{{ isolinux_image_url }}{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
   with_items: "{{ isolinux_boot_files_6 }}"
-  when: ( isolinux_os_version is defined and isolinux_os_version is search("6.*") )
+  when: ( isolinux_os_version is defined and isolinux_os_version is search("^6.*") )
   tags:
     - build_bootiso 
 
-- name: Download isolinux boot files 
+- name: Download isolinux 7 boot files 
   get_url: 
-    url: "{{ isolinux_image_url }}{{ item }}"
+    url: "{{ isolinux_7_image_url }}{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
   with_items: "{{ isolinux_boot_files_7 }}"
-  when: ( isolinux_os_version is defined and isolinux_os_version is search("7.*") )
+  when: ( isolinux_os_version is defined and isolinux_os_version is search("^7.*") )
   tags:
     - build_bootiso 
 
