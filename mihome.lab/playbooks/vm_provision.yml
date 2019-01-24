@@ -1,12 +1,12 @@
 ---
-- hosts: newbuild_vm
+- hosts: newbuild7_vm
   vars_files: 
     - ../inventories/build/group_vars/mihome_vcenter_vars
-    - ../inventories/build/group_vars/centos610_vcenter_vars
+    - ../inventories/build/group_vars/centos6_vcenter_vars
   #become: true
   gather_facts: true
   connection: local
   roles: 
-  #- ../roles/build_bootiso 	                                # Generate bootisos
-  #  - { role: "../roles/transfer_bootiso", tags: "via_nfs" }       # Transfer bootisos to DataStore
-    - { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } }		# Deploy VMs with bootisos
+    - ../roles/build_bootiso 	                                # Generate bootisos
+      #- { role: "../roles/transfer_bootiso", tags: "via_nfs" }       # Transfer bootisos to DataStore
+      #- { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } }		# Deploy VMs with bootisos

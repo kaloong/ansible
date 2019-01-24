@@ -15,4 +15,4 @@
     esxi_hostname: '{{ esxi_host }}'
   delegate_to: localhost
   tags:
-    - shuts_esxi
+    - shutdown_esxi

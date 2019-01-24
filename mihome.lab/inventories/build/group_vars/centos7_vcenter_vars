@@ -1,3 +1,5 @@
+isolinux_cfg:		isolinux_7.cfg.j2
+isolinux_ks:		kickstart_7.ks.j2
 guest_id: 		centos7_64Guest
 guest_disk_type: 	thin
 guest_disk_size: 	10

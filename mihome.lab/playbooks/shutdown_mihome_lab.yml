@@ -7,4 +7,4 @@
   gather_facts: false
   connection: local
   roles: 
-    - ../roles/esxi_adm		# VMWware roles
+    - { role: ../roles/vmware_adm, tags: "shutdown_esxi", vars: { host_force: "yes"  host_state: "shutdown-host" } }		# VMWware roles

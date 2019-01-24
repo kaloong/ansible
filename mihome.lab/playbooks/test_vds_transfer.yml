@@ -5,4 +5,4 @@
   gather_facts: true
   connection: local
   roles:
-    - ../roles/vds_file_transfer
+    - ../roles/transfer_bootiso
