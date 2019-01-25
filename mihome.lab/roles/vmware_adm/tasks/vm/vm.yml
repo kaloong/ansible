@@ -16,7 +16,7 @@
     #state: poweredon
     state: '{{ guest_vm_state }}'
     force: '{{ guest_vm_force }}'
-    guest_id: '{{ guest_id }}'
+    guest_id: '{{ guest_id[ os_version ]  }}'
     esxi_hostname: '{{ esxi_host }}'
     is_template: '{{ deployment_is_template }}'
     cdrom:

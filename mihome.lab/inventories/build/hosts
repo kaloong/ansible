@@ -11,7 +11,10 @@ VM_0015 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" n
 VM_0017 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.117 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:17 netmask=255.255.255.0 guest_notes="Sandbox #17"
 
 [newbuild8_vm]
-VM_0018 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.118 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:18 netmask=255.255.255.0 guest_notes="Sandbox #17"
+VM_0018 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.118 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:18 netmask=255.255.255.0 guest_notes="Sandbox #18"
+
+[newbuild9_vm]
+VM_0019 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.119 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:19 netmask=255.255.255.0 guest_notes="Sandbox #19"
 
 [esxi_hosts]
 esk00 esxi_host=172.16.21.20

@@ -1,7 +1,3 @@
-isolinux_os_version:	"6.9"
-isolinux_arch_version:	x86_64
-isolinux_cfg:		isolinux_6.cfg.j2
-isolinux_ks:		kickstart_6.ks.j2
 guest_id: 		centos6_64Guest
 guest_disk_type: 	thin
 guest_disk_size: 	10

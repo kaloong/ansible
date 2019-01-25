@@ -2,10 +2,9 @@
 - hosts: build_vms
   vars_files: 
     - ../inventories/build/group_vars/mihome_vcenter_vars
-    - ../inventories/build/group_vars/centos610_vcenter_vars
   #become: true
   gather_facts: false
   connection: local
   roles: 
-    - ../roles/build_bootiso 	     # 
-    - ../roles/transfer_bootiso     # VMware roles
+    - { role: "../roles/build_bootiso", vars: { os_version: "6.10" } }    # Generate bootisos
+    #- ../roles/transfer_bootiso     # VMware roles
