@@ -13,10 +13,13 @@
     datastore: '{{ deployment_iso_datastore }}'
     #src: '/tmp/{{ inventory_hostname }}.iso'
     #path: '{{ deployment_iso_path }}/{{ inventory_hostname }}.iso'
-    src: '{{ bootiso_local_dir }}/{{ bootiso_filename }}'
+    #src: '{{ bootiso_local_dir }}/{{ bootiso_filename }}'
+    src: '/tmp/{{ deployment_iso_path }}'
     path: '{{ deployment_iso_path }}'
     validate_certs: no
   delegate_to: localhost
+  with_items: "{{ ansible_mounts }}"
+  when: '"SkullDataStore" not in item.device'
   tags:
     - via_vsphere
 

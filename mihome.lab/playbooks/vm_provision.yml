@@ -1,7 +1,7 @@
 ---
 - hosts: newbuild9_vm
-  vars_files: 
-    - ../inventories/build/group_vars/mihome_vcenter_vars
+  #vars_files: 
+  #  - ../inventories/build/group_vars/mihome_vcenter_vars
   #become: true
   gather_facts: true
   connection: local
