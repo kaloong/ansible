@@ -4,4 +4,4 @@
 
 - name: Addming esxi tasks
   import_tasks: esxi/esxi.yml
-  when: host_state is defined and host_force is defined
+  #when: host_state is defined and host_force is defined

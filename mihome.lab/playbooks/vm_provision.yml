@@ -7,5 +7,5 @@
   connection: local
   roles: 
     - { role: "../roles/build_bootiso", vars: { os_version: "7" } }                                    # Generate bootisos
-    - { role: "../roles/transfer_bootiso", tags: "via_nfs" }                                           # Transfer bootisos to DataStore
-    - { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } }	# Deploy VMs with bootisos
+      #- { role: "../roles/transfer_bootiso", tags: "via_nfs" }                                           # Transfer bootisos to DataStore
+      #- { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } }	# Deploy VMs with bootisos

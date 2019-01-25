@@ -72,23 +72,36 @@
   get_url: 
     url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
-  with_items: "{{ isolinux_boot_files_6 }}"
+  with_items: "{{ isolinux_boot_files[ os_version.split()[0] ] }}"
   when: 
-    - os_version is defined and iso_url[ os_version ] is defined
-    - os_version is search("^6.*")
+    - os_version is defined 
+      #    - os_version is search("^6.*")
+    - iso_url[ os_version ] is defined
   tags:
     - build_bootiso 
 
-- name: Download isolinux {{ os_version }} boot files 
-  get_url: 
-    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
-    dest: "{{ isolinux_target_dir.path }}"
-  with_items: "{{ isolinux_boot_files_7 }}"
-  when: 
-    - os_version is defined and iso_url[ os_version ] is defined
-    - os_version is search("^7.*")
-  tags:
-    - build_bootiso 
+#- name: Download isolinux {{ os_version }} boot files 
+#  get_url: 
+#    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
+#    dest: "{{ isolinux_target_dir.path }}"
+#  with_items: "{{ isolinux_boot_files_6 }}"
+#  when: 
+#    - os_version is defined 
+#    - os_version is search("^6.*")
+#    - iso_url[ os_version ] is defined
+#  tags:
+#    - build_bootiso 
+#
+#- name: Download isolinux {{ os_version }} boot files 
+#  get_url: 
+#    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
+#    dest: "{{ isolinux_target_dir.path }}"
+#  with_items: "{{ isolinux_boot_files_7 }}"
+#    - os_version is defined 
+#    - os_version is search("^7.*")
+#    - iso_url[ os_version ] is defined
+#  tags:
+#    - build_bootiso 
 
 - name: Generate kickstart {{ os_version }} file
   template:
