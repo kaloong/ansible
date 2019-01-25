@@ -1,33 +1,8 @@
 ---
-#- name: Check for required variables
-#  fail: 
-#    msg: "Must provide xxx to -e"
-#  when: ( something is not defined ) or  ( another thing is not defined )
+- include: transfer_methods/transfer_via_nfs.yml
+  when: transfer_via == "nfs"
+  tags: transfer_via_nfs
 
-- name: Transfer boot iso to vCenter 
-  vsphere_copy:
-    host: '{{ deployment_vcenter }}'
-    login: '{{ deployment_user }}'
-    password: '{{ deployment_pass }}'
-    datacenter: '{{ deployment_datacenter }}'
-    datastore: '{{ deployment_iso_datastore }}'
-    #src: '/tmp/{{ inventory_hostname }}.iso'
-    #path: '{{ deployment_iso_path }}/{{ inventory_hostname }}.iso'
-    #src: '{{ bootiso_local_dir }}/{{ bootiso_filename }}'
-    src: '/tmp/{{ deployment_iso_path }}'
-    path: '{{ deployment_iso_path }}'
-    validate_certs: no
-  delegate_to: localhost
-  with_items: "{{ ansible_mounts }}"
-  when: '"SkullDataStore" not in item.device'
-  tags:
-    - via_vsphere
-
-- name: Transfer file to SkullDataStore if it is mounted.
-  copy:
-    src: "{{ iso_local_target_dir }}{{ iso_local_target_filename }}"
-    dest: /data/
-  with_items: "{{ ansible_mounts }}"
-  when: '"SkullDataStore" in item.device'
-  tags:
-    - via_nfs
+- include: transfer_methods/transfer_via_vcenter.yml
+  when: transfer_via == "vcenter"
+  tags: transfer_via_vcenter

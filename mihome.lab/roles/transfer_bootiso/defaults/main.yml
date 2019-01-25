@@ -12,3 +12,7 @@ deployment_is_template: no
 deployment_folder: /vm
 deployment_iso_datastore: SkullDataStore
 deployment_iso_path: "bootiso/{{ inventory_hostname }}.iso"
+transfer_src_target: "/tmp/bootiso/{{ inventory_hostname }}.iso"
+transfer_dest_target_nfs: "/data/bootiso/"
+transfer_dest_target_vcenter: "bootiso/{{ inventory_hostname }}.iso"
+transfer_via: "nfs"

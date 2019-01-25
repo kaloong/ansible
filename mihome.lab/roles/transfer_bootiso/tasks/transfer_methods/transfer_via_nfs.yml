@@ -1,0 +1,14 @@
+---
+#- name: Check for required variables
+#  fail: 
+#    msg: "Must provide xxx to -e"
+#  when: ( something is not defined ) or  ( another thing is not defined )
+
+- name: Transfer file to SkullDataStore.
+  copy:
+    src: "{{ transfer_src_target }}"
+    dest: "{{ transfer_dest_target_nfs }}"
+    #  with_items: "{{ ansible_mounts }}"
+    #  when: '"SkullDataStore" in item.device'
+  tags:
+    - transfer_via_nfs
