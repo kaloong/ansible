@@ -4,6 +4,9 @@
 #    msg: "Must provide xxx to -e"
 #  when: ( something is not defined ) or  ( another thing is not defined )
 
+- name: Enable gather facts for ansible_os_family
+  setup:
+
 - name: Check if NFS is available.
   fail:
     msg: "{{ transfer_dest_target_mountpoint }} must be a mount point"
