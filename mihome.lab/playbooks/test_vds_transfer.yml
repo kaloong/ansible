@@ -1,8 +1,6 @@
 ---
-- hosts: build_vms
-  vars_files: 
-    - ../inventories/build/group_vars/mihome_vcenter_vars
+- hosts: newbuild9_vm
   gather_facts: true
   connection: local
   roles:
-    - ../roles/transfer_bootiso
+    - { role: "../roles/transfer_bootiso", transfer_via: vcenter }               # Transfer bootisos to DataStore
