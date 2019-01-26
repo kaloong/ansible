@@ -7,7 +7,7 @@ firewall --enabled --ssh
 keyboard 'uk'
 
 # Use network installation
-url --url="{{ iso_url[ os_version ] }}"
+url --url="{{ iso_urls[ os_version ] }}"
 # Network information
 network --hostname {{ inventory_hostname }} --device=eth0 --bootproto=static --ip {{ netip }} --netmask {{ netmask }} --gateway {{ netgw }} --nameserver 172.16.30.100
 # Reboot after installation

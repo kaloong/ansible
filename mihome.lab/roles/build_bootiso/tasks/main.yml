@@ -64,55 +64,58 @@
 
 - name: Doh 
   debug:
-    #msg: "... {{ iso_url['%s'|format( os_version )] }} ..."
-    msg: "... {{ iso_url[ os_version ] }} ..."
-  when: os_version is defined and iso_url[ os_version ] is defined
+    #msg: "... {{ iso_urls['%s'|format( os_version )] }} ..."
+    msg: "... {{ iso_urls[ os_version ] }} ..."
+    #msg: "... {{ os_version.split('.')[0] }} ..."
+    #msg: "{{ isolinux_boot_files[ os_version.split()[0] ] }}"
+  when: os_version is defined and iso_urls[ os_version ] is defined
 
 - name: Download isolinux {{ os_version }} boot files 
   get_url: 
-    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
+    url: "{{ iso_urls[ os_version ] }}/isolinux/{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
-  with_items: "{{ isolinux_boot_files[ os_version.split()[0] ] }}"
+  with_items: "{{ isolinux_boot_files[ os_version.split('.')[0] ] }}"
   when: 
     - os_version is defined 
       #    - os_version is search("^6.*")
-    - iso_url[ os_version ] is defined
+      #- iso_urls[ "{{ os_version }}" ] is defined
+    - iso_urls[ os_version ] is defined
   tags:
     - build_bootiso 
 
 #- name: Download isolinux {{ os_version }} boot files 
 #  get_url: 
-#    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
+#    url: "{{ iso_urls[ os_version ] }}/isolinux/{{ item }}"
 #    dest: "{{ isolinux_target_dir.path }}"
 #  with_items: "{{ isolinux_boot_files_6 }}"
 #  when: 
 #    - os_version is defined 
 #    - os_version is search("^6.*")
-#    - iso_url[ os_version ] is defined
+#    - iso_urls[ os_version ] is defined
 #  tags:
 #    - build_bootiso 
 #
 #- name: Download isolinux {{ os_version }} boot files 
 #  get_url: 
-#    url: "{{ iso_url[ os_version ] }}/isolinux/{{ item }}"
+#    url: "{{ iso_urls[ os_version ] }}/isolinux/{{ item }}"
 #    dest: "{{ isolinux_target_dir.path }}"
 #  with_items: "{{ isolinux_boot_files_7 }}"
 #    - os_version is defined 
 #    - os_version is search("^7.*")
-#    - iso_url[ os_version ] is defined
+#    - iso_urls[ os_version ] is defined
 #  tags:
 #    - build_bootiso 
 
 - name: Generate kickstart {{ os_version }} file
   template:
-    src: "{{ isolinux_ks[ os_version.split()[0] ] }}"
+    src: "{{ isolinux_ks[ os_version.split('.')[0] ] }}"
     dest: "{{ isolinux_target_dir.path }}/{{ inventory_hostname }}.ks"
   tags:
     - build_bootiso 
 
 - name: Generate isolinux {{ os_version }} config file
   template:
-    src: "{{ isolinux_cfg[ os_version.split()[0] ] }}"
+    src: "{{ isolinux_cfg[ os_version.split('.')[0] ] }}"
     dest: "{{ isolinux_target_dir.path }}/isolinux.cfg"
   tags:
     - build_bootiso 
@@ -122,7 +125,7 @@
   register: build_out
   when: 
     - ansible_os_family == "ClearLinux"
-    - os_version is defined and iso_url[ os_version ] is defined
+    - os_version is defined and iso_urls[ os_version ] is defined
   tags:
     - build_bootiso 
 
@@ -131,7 +134,7 @@
   register: build_out
   when: 
     - ansible_os_family == "Darwin"
-    - os_version is defined and iso_url[ os_version ] is defined
+    - os_version is defined and iso_urls[ os_version ] is defined
   tags:
     - build_bootiso 
 

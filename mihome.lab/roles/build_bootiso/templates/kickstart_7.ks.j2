@@ -5,7 +5,7 @@ text
 auth --enableshadow --passalgo=sha512
 keyboard 'uk'
 
-url --url="{{ iso_url[ os_version ] }}"
+url --url="{{ iso_urls[ os_version ] }}"
 
 # Using only primary disk, ignoring others
 ignoredisk --only-use=sda
