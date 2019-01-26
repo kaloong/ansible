@@ -12,24 +12,24 @@
 - name: Enable gather facts for ansible_os_family
   setup:
 
-- name: Create tmp directory
-  shell: mktemp -d
-  register: tmpout
-  tags:
-    - build_bootiso 
-
-- name: 
-  stat: 
-    path: "{{ tmpout.stdout }}"
-  register: tmpdir
-  tags:
-    - build_bootiso 
-
-- debug:
-    msg: "New directory  {{ tmpdir }}"
-  when: tmpdir.stat.exists
-  tags:
-    - build_bootiso 
+#- name: Create tmp directory
+#  shell: mktemp -d
+#  register: tmpout
+#  tags:
+#    - build_bootiso 
+#
+#- name: 
+#  stat: 
+#    path: "{{ tmpout.stdout }}"
+#  register: tmpdir
+#  tags:
+#    - build_bootiso 
+#
+#- debug:
+#    msg: "New directory  {{ tmpdir }}"
+#  when: tmpdir.stat.exists
+#  tags:
+#    - build_bootiso 
 
 #- name: Download boot images
 #  shell: wget mirror.centos.org/centos/6/os/x86_64/isolinux/boot.msg
@@ -45,6 +45,29 @@
 #    - "isolinux.cfg"
 #    - "boot.msg"
 #    - "splash.jpg"  
+     
+- name: Create local boot iso folder in /tmp/centos6
+  file:
+    path: /tmp/centos 
+    state: directory
+    mode: 0755
+  register: tmpout
+  tags:
+    - build_bootiso 
+
+- name:  
+  stat: 
+    path: "{{ tmpout.path }}"
+  register: tmpdir
+  tags:
+    - build_bootiso 
+
+- debug:
+    msg: "New directory  {{ tmpdir }}"
+  when: tmpdir.stat.exists
+  tags:
+    - build_bootiso 
+
 - name: Create local build_bootiso directory in tmp
   file:
     path: "{{ bootiso_local_dir }}"
