@@ -1,6 +1,6 @@
 guest_id: 		
- "6" : centos6_64Guest
- "7" : centos7_64Guest
+  "6" : centos6_64Guest
+  "7" : centos7_64Guest
 os_version: 6
 guest_disk_type: 	thin
 guest_disk_size: 	10

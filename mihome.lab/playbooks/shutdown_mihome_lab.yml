@@ -3,9 +3,10 @@
   vars_files: 
     - ../inventories/build/group_vars/mihome_vcenter_vars
     - ../inventories/build/group_vars/esxi_vars
-    - ../inventories/build/group_vars/centos_vcenter_vars
+  #  - ../inventories/build/group_vars/centos_vcenter_vars
   #become: true
   gather_facts: false
   connection: local
   roles: 
-    - { role: "../roles/vmware_adm", tags: "shutdown_esxi", vars: { host_force: "yes",  host_state: "shutdown-host" } }		# VMWware roles
+    #- { role: "../roles/vmware_adm", tags: "shutdown_esxi", os_version: "6", vars: { host_force: "yes",  host_state: "shutdown-host" } }		# VMWware roles
+    - { role: "../roles/vmware_adm", platform_target: "esxi", vars: { host_force: "yes",  host_state: "shutdown-host" } }		# VMWware roles

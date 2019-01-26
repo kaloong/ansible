@@ -1,7 +1,9 @@
 ---
 - name: Adding vm tasks
   import_tasks: vm/vm.yml
+  when: platform_target == "vm"
 
 - name: Addming esxi tasks
   import_tasks: esxi/esxi.yml
+  when: platform_target == "esxi"
   #when: host_state is defined and host_force is defined
