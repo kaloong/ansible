@@ -3,9 +3,9 @@
   #  vars_files: 
   #  - ../inventories/build/group_vars/mihome_vcenter_vars
   #become: true
-  gather_facts: false
+  gather_facts: true
   connection: local
   roles: 
-    - { role: "../roles/build_bootiso", os_version: '6' }    # Generate bootisos
-    #  - { role: "../roles/build_bootiso", vars: { os_version: '6.10' } }    # Generate bootisos
-    - { role: "../roles/transfer_bootiso", transfer_via: vcenter }               # Transfer bootisos to DataStore
+    # - { role: "../roles/build_bootiso", os_version: '6' }    # Generate bootisos
+    # - { role: "../roles/build_bootiso", vars: { os_version: '6.10' } }    # Generate bootisos
+    - { role: "../roles/transfer_bootiso", transfer_via: nfs }               # Transfer bootisos to DataStore
