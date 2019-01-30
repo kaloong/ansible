@@ -1,0 +1,7 @@
+---
+- hosts: HAPP
+  become: true
+  vars_files:
+    - ../../inventories/dev/group_vars/sf
+  tasks:
+  - include_tasks: pre_test.yml

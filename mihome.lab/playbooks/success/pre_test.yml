@@ -1,0 +1,161 @@
+---
+- name: Generate test report folder "{{ test_folder }}"
+  file:
+    path: "{{ test_folder }}"
+    mode: 0755
+    state: directory
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name: Generate test report "{{ test_filename }}"
+  file:
+    path: "{{ test_filename }}.txt"
+    mode: 0755
+    state: touch
+  delegate_to: localhost
+  tags: sf_pretest
+#######################################################################################################
+- name: Register "{{ check_chrootdir_path }}" to be checked 
+  stat: 
+    path: "{{ check_chrootdir_path }}"
+  register: p
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_chrootdir_path }}" exists in {{ inventory_hostname }} 
+  set_fact:
+    check_chrootdir_path_state: PASSED
+  when: p.stat.isdir is defined and p.stat.isdir  
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_chrootdir_path }} path exists: \t\t\t{{ check_chrootdir_path_state  }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_chrootdir_path }}" permission is "{{ check_chrootdir_mode }}" 
+  set_fact:
+    check_chrootdir_mode_state: PASSED
+  when: p.stat.mode is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_chrootdir_path }} permission is {{ check_chrootdir_mode }}: \t\t{{ check_chrootdir_mode_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_chrootdir_path }}" permission is "{{ check_chrootdir_owner }}" 
+  set_fact:
+    check_chrootdir_owner_state: PASSED
+  when: p.stat.pw_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_chrootdir_path }} owner ownership is {{ check_chrootdir_owner }}: \t{{ check_chrootdir_owner_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_chrootdir_path }}" permission is "{{ check_chrootdir_group }}" 
+  set_fact:
+    check_chrootdir_group_state: PASSED
+  when: p.stat.gr_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_chrootdir_path }} group ownership is {{ check_chrootdir_group }}: \t\t{{ check_chrootdir_group_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_user_path }}" exists is "{{ check_user_path }}" 
+  set_fact:
+    check_user_path_state: PASSED
+  when: p.stat.gr_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_user_path }} exists is {{ check_user_path }}: \t\t{{ check_user_path_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_user_path }}" permission is "{{ check_user_mode }}" 
+  set_fact:
+    check_user_mode_state: PASSED
+  when: p.stat.gr_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_user_path }} group ownership is {{ check_user_mode }}: \t\t{{ check_user_mode_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_dropbox_path }}" exists is "{{ check_dropbox_path }}" 
+  set_fact:
+    check_dropbox_path_state: PASSED
+  when: p.stat.gr_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_dropbox_path }} exists is {{ check_dropbox_path }}: \t\t{{ check_dropbox_path_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+- name: Ensure "{{ check_dropbox_mode }}" permission is "{{ check_dropbox_mode }}" 
+  set_fact:
+    check_dropbox_mode_state: PASSED
+  when: p.stat.gr_name is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ check_dropbox_path }} group ownership is {{ check_dropbox_mode}}: \t\t{{ check_dropbox_mode_state }}"  
+  when: p is defined
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+#
+#- name: Summary of this checks
+#  debug:
+#    msg: 
+#      - "{{ p }}"
+#      - "{{ check_chrootdir_path_state }}"
+#      - "{{ check_chrootdir_mode_state }}"
+#  tags: sf_pretest 

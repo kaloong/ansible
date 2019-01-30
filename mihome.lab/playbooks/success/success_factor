@@ -1,0 +1,40 @@
+---
+test_folder: "reports"
+test_filename: "{{ test_folder }}/{{ inventory_hostname }}_{{ ansible_date_time.epoch }}"
+
+######################################
+#Change to /home/chrootdir
+check_chrootdir_path: /home/kaloong
+check_chrootdir_path_state: FAILED
+
+#Change to 0755 
+check_chrootdir_mode: '0700'
+check_chrootdir_mode_state: FAILED
+
+######################################
+#Change to root
+check_chrootdir_owner: "kaloong"
+check_chrootdir_owner_state: FAILED
+
+#Change to some_svc_users
+check_chrootdir_group: "wheel"
+check_chrootdir_group_state: FAILED
+
+######################################
+#Change to svc_sfuser2
+check_user_path: /home/kaloong
+check_user_path_state: FAILED
+
+#Change to 755
+check_user_mode: '0700'
+check_user_mode_state: FAILED
+
+######################################
+#
+#Change to dropbox
+check_dropbox_path: /home/kaloong
+check_dropbox_path_state: FAILED
+
+#Change to 750
+check_dropbox_mode: '0700'
+check_dropbox_mode_state: FAILED
