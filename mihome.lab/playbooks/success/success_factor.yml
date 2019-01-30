@@ -4,4 +4,4 @@
   vars_files:
     - ../../inventories/dev/group_vars/sf
   tasks:
-  - include_tasks: pre_test.yml
+  - include_tasks: new_testyml

@@ -9,3 +9,9 @@ esk00 esxi_host=172.16.21.20
 esk01 esxi_host=172.16.21.21
 esk02 esxi_host=172.16.21.22
 esk03 esxi_host=172.16.21.23
+
+[HAPP]
+localhost
+
+[sf]
+localhost
