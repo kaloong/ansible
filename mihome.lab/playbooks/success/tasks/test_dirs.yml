@@ -30,22 +30,26 @@
     msg: "{{ item.stat.exists }}"
   with_items: "{{ p.results }}"
 
-- name: Ensure path exists
-  set_fact:
-    default_state: PASSED
-  when:  item.stat.exists
-  with_items: "{{ p.results }}"
-  #delegate_to: localhost
-  tags: sf_pretest
+#- name: Ensure path exists
+#  set_fact:
+#    default_state: PASSED
+#  when:  item.stat.exists
+#  with_items: "{{ p.results }}"
+#  #delegate_to: localhost
+#  tags: sf_pretest
 
 - name:
   lineinfile:
     path: "{{ test_filename }}.txt"
-    line: "{{ item.item.path }} exists: \t{{ item.stat.exists }}"  
+    #line: "{{ item.item.path }} \t\tfolder exists: \t{{ item.item.default_state }}"
+    #line: "{{ item.item.path }} \t\tfolder exists: \t{{ item.stat.exists }}"
+    line: "{{ item.item.path }} folder exists: \t{{ item.stat.exists | replace('True', 'PASSED') | replace('False', 'FAILED') | pprint }}"
+    #line: "{{ item.item.path }} \t\tfolder exists: \t{{ item.stat.exists|map('extract',{'True':'PASSED','False':'FAILED'})|list }}"
     #when: item.stat.exists
   with_items: "{{ p.results }}"
   delegate_to: localhost
   tags: sf_pretest
+
 
 #- name: Summary of this checks
 #  debug:
