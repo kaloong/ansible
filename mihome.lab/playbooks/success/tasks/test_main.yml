@@ -1,0 +1,26 @@
+---
+- name: Generate test report folder "{{ test_folder }}"
+  file:
+    path: "{{ test_folder }}"
+    mode: 0755
+    state: directory
+    owner: "{{ ansible_user_id }}"
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name: Generate test report "{{ test_filename }}"
+  file:
+    path: "{{ test_filename }}.txt"
+    mode: 0755
+    state: touch
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+
+#- name: Summary of this checks
+#  debug:
+#    msg:  "print ... {{ item.path }}"
+#  with_items: "{{ test_dirs }}"
+#  delegate_to: localhost
+#  tags: sf_pretest 

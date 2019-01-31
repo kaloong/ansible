@@ -15,36 +15,12 @@
   delegate_to: localhost
   tags: sf_pretest
 
-########################################################################################################
-#- name: Register "{{ check_chrootdir_path }}" to be checked 
-#  stat: 
-#    path: "{{ check_chrootdir_path }}"
-#  register: p
-#  delegate_to: localhost
-#  tags: sf_pretest
-#
-########################################################################################################
-#- name: Ensure "{{ check_chrootdir_path }}" permission is "{{ check_chrootdir_owner }}" 
-#  set_fact:
-#    check_chrootdir_owner_state: PASSED
-#  when: p.stat.pw_name is defined
-#  delegate_to: localhost
-#  tags: sf_pretest
-#
-#- name:
-#  lineinfile:
-#    path: "{{ test_filename }}.txt"
-#    line: "{{ check_chrootdir_path }} owner ownership is {{ check_chrootdir_owner }}: \t{{ check_chrootdir_owner_state }}"  
-#  when: p is defined
-#  delegate_to: localhost
-#  tags: sf_pretest
-#
 #######################################################################################################
 #
-- name: Register "{{ test_dir }}" to be checked
+- name: Register "{{ test_dirs }}" to be checked
   stat:
     path: "{{ item.path }}"
-  with_items: "{{ test_dir }}"
+  with_items: "{{ test_dirs }}"
   register: p
   delegate_to: localhost
   tags: sf_pretest
@@ -74,6 +50,6 @@
 #- name: Summary of this checks
 #  debug:
 #    msg:  "print ... {{ item.path }}"
-#  with_items: "{{ test_dir }}"
+#  with_items: "{{ test_dirs }}"
 #  delegate_to: localhost
 #  tags: sf_pretest 

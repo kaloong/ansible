@@ -1,0 +1,11 @@
+---
+test_folder: "reports"
+test_filename: "{{ test_folder }}/{{ inventory_hostname }}_{{ ansible_date_time.epoch }}"
+
+test_dirs: 
+  - { default_state: "FAILED", path: "/Users/kaloong", mode: '0700', owner: "kaloong", group: "wheel" }
+  - { default_state: "FAILED", path: "/home/kaloong_1", mode: '0750', owner: "kaloong", group: "wheel" }
+
+test_files: 
+  - { default_state: "FAILED", path: "/home/kaloong/.bash_profile", mode: '0700', owner: "kaloong", group: "wheel" }
+

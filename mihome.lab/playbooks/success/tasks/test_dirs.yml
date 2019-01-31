@@ -1,0 +1,55 @@
+---
+- name: Generate test report folder "{{ test_folder }}"
+  file:
+    path: "{{ test_folder }}"
+    mode: 0755
+    state: directory
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name: Generate test report "{{ test_filename }}"
+  file:
+    path: "{{ test_filename }}.txt"
+    mode: 0755
+    state: touch
+  delegate_to: localhost
+  tags: sf_pretest
+
+#######################################################################################################
+#
+- name: Register "{{ test_dirs }}" to be checked
+  stat:
+    path: "{{ item.path }}"
+  with_items: "{{ test_dirs }}"
+  register: p
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  debug:
+    msg: "{{ item.stat.exists }}"
+  with_items: "{{ p.results }}"
+
+- name: Ensure path exists
+  set_fact:
+    default_state: PASSED
+  when:  item.stat.exists
+  with_items: "{{ p.results }}"
+  #delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ item.item.path }} exists: \t{{ item.stat.exists }}"  
+    #when: item.stat.exists
+  with_items: "{{ p.results }}"
+  delegate_to: localhost
+  tags: sf_pretest
+
+#- name: Summary of this checks
+#  debug:
+#    msg:  "print ... {{ item.path }}"
+#  with_items: "{{ test_dirs }}"
+#  delegate_to: localhost
+#  tags: sf_pretest 
