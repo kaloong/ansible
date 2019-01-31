@@ -1,0 +1,48 @@
+---
+- name: Register "{{ test_cases }}" to be checked
+  stat:
+    path: "{{ item.path }}"
+  with_items: "{{ test_cases }}"
+  register: p
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  debug:
+    msg: "{{ item.stat.exists }}"
+  with_items: "{{ p.results }}"
+
+#- name: Ensure path exists
+#  set_fact:
+#    default_state: PASSED
+#  when:  item.stat.exists
+#  with_items: "{{ p.results }}"
+#  #delegate_to: localhost
+#  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "[i] {{ item.stat.exists | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check if {{ item.item.type }} {{ item.item.path }} exists."
+    #line: "{{ item.item.path }} \t\tfolder exists: \t{{ item.stat.exists|map('extract',{'True':'PASSED','False':'FAILED'})|list }}"
+  when: item.stat.exists
+  with_items: "{{ p.results }}"
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "[i] {{ item.stat.exists | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check if {{ item.item.type }} {{ item.item.path }} exists returns unknown"
+  when: not item.stat.exists
+  with_items: "{{ p.results }}"
+  delegate_to: localhost
+  tags: sf_pretest
+
+
+#- name: Summary of this checks
+#  debug:
+#    msg:  "print ... {{ item.path }}"
+#  with_items: "{{ test_cases }}"
+#  delegate_to: localhost
+#  tags: sf_pretest 
