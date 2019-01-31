@@ -14,6 +14,7 @@
     state: touch
   delegate_to: localhost
   tags: sf_pretest
+
 ########################################################################################################
 #- name: Register "{{ check_chrootdir_path }}" to be checked 
 #  stat: 
@@ -40,10 +41,39 @@
 #
 #######################################################################################################
 #
-- name: Summary of this checks
+- name: Register "{{ test_dir }}" to be checked
+  stat:
+    path: "{{ item.path }}"
+  with_items: "{{ test_dir }}"
+  register: p
+  delegate_to: localhost
+  tags: sf_pretest
+
+- name:
   debug:
-    msg: 
-      - "{{ p }}"
-      - "{{ test_dir }}"
-      - "{{ test_file }}"
-  tags: sf_pretest 
+    msg: "{{ item.stat.exists }}"
+  with_items: "{{ p.results }}"
+
+- name: Ensure path exists
+  set_fact:
+    default_state: PASSED
+  when:  item.stat.exists
+  with_items: "{{ p.results }}"
+  #delegate_to: localhost
+  tags: sf_pretest
+
+- name:
+  lineinfile:
+    path: "{{ test_filename }}.txt"
+    line: "{{ item.item.path }} exists: \t{{ item.stat.exists }}"  
+    #when: item.stat.exists
+  with_items: "{{ p.results }}"
+  delegate_to: localhost
+  tags: sf_pretest
+
+#- name: Summary of this checks
+#  debug:
+#    msg:  "print ... {{ item.path }}"
+#  with_items: "{{ test_dir }}"
+#  delegate_to: localhost
+#  tags: sf_pretest 

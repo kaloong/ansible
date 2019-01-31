@@ -1,0 +1,2 @@
+/Users/kaloong exists: 	True
+/home/kaloong_1 exists: 	False
