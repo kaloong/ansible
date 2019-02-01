@@ -1,32 +1,31 @@
 ---
-- name: Register "{{ test_cases }}" to be checked
-  stat:
-    path: "{{ item.path }}"
-  with_items: "{{ test_cases }}"
+- name: Register
+  shell: groups "{{ item.owner }}"
+  with_items: "{{ test_users }}"
   register: p
   delegate_to: localhost
   tags: sf_pretest
 
 - name:
   debug:
-    msg: "{{ item.stat.pw_name is defined and item.stat.pw_name == item.item.owner | replace('true','PASS') }}"
+    msg: "{{ item.stdout   }}"
   with_items: "{{ p.results }}"
-  when: item.stat.exists
+  #when: item.stat.exists
 
-- name: Test 
-  lineinfile:
-    path: "{{ test_filename }}.txt"
-    line: "[i] {{ ( item.stat.pw_name == item.item.owner ) | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check User ownership for {{ item.item.type }}: {{ item.item.path }}."
-  when: item.stat.exists
-  with_items: "{{ p.results }}"
-  delegate_to: localhost
-  tags: sf_pretest
-
-- name: Test edge cases
-  lineinfile:
-    path: "{{ test_filename }}.txt"
-    line: "[i] ---FAILS! - Check User ownership for {{ item.item.type }} {{ item.item.path }} returns unknown."
-  when: not item.stat.exists 
-  with_items: "{{ p.results }}"
-  delegate_to: localhost
-  tags: sf_pretest
+#- name: Test 
+#  lineinfile:
+#    path: "{{ test_filename }}.txt"
+#    line: "[i] {{ ( item.stat.pw_name == item.item.owner ) | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check User ownership for {{ item.item.type }}: {{ item.item.path }}."
+#  when: item.stat.exists
+#  with_items: "{{ p.results }}"
+#  delegate_to: localhost
+#  tags: sf_pretest
+#
+#- name: Test edge cases
+#  lineinfile:
+#    path: "{{ test_filename }}.txt"
+#    line: "[i] ---FAILS! - Check User ownership for {{ item.item.type }} {{ item.item.path }} returns unknown."
+#  when: not item.stat.exists 
+#  with_items: "{{ p.results }}"
+#  delegate_to: localhost
+#  tags: sf_pretest

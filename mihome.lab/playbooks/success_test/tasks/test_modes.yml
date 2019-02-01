@@ -9,14 +9,14 @@
 
 #- name:
 #  debug:
-#    msg: "{{ item.stat.gr_name is defined and item.stat.gr_name == item.item.group | replace('true','PASS') }}"
+#    msg: "{{ item.stat.mode is defined and item.stat.mode == item.item.mode | replace('true','PASS') }}"
 #  with_items: "{{ p.results }}"
 #  when: item.stat.exists
 
-- name: Test grouops
+- name: Test 
   lineinfile:
     path: "{{ test_filename }}.txt"
-    line: "[i] {{ ( item.stat.gr_name == item.item.group ) | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check Group ownership for {{ item.item.type }}: {{ item.item.path }}."
+    line: "[i] {{ ( item.stat.mode == item.item.mode ) | replace('True', '+++PASS~!') | replace('False', '---FAILS!') }} - Check mode permissions for {{ item.item.type }}: {{ item.item.path }}."
   when: item.stat.exists
   with_items: "{{ p.results }}"
   delegate_to: localhost
@@ -25,7 +25,7 @@
 - name: Test edge cases
   lineinfile:
     path: "{{ test_filename }}.txt"
-    line: "[i] ---FAILS! - Check Group ownership for {{ item.item.type }} {{ item.item.path }} returns unknown."
+    line: "[i] ---FAILS! - Check mode permissions for {{ item.item.type }} {{ item.item.path }} returns unknown."
   when: not item.stat.exists 
   with_items: "{{ p.results }}"
   delegate_to: localhost

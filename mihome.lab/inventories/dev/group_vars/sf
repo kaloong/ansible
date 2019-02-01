@@ -3,8 +3,10 @@ test_folder: "reports"
 test_filename: "{{ test_folder }}/{{ inventory_hostname }}_{{ ansible_date_time.epoch }}"
 
 test_cases: 
-  - { type: folder, path: "/home/kaloong", mode: '0750', owner: "mensa", groups: "mensa" }
-  - { type: folder, path: "/home/mensa", mode: '0700', owner: "kaloong", groups: "wheel" }
-  - { type: file, path: "/home/mensa/.bash_profile", mode: '0700', owner: "mensa", groups: "mensa" }
-  - { type: file, path: "/home/kaloong/.bash_profile", mode: '0700', owner: "kaloong", groups: "wheel" }
+  - { type: folder, path: "/home/kaloong", mode: '0750', owner: "mensa", group: "mensa", groups: "root testuser "}
+  - { type: folder, path: "/home/mensa", mode: '0755', owner: "kaloong", group: "wheel", groups: "root testuser" }
+  - { type: file, path: "/home/mensa/.bash_profile", mode: '0700', owner: "mensa", group: "mensa", groups: "root testuser" }
+  - { type: file, path: "/home/kaloong/.bash_profile", mode: '0700', owner: "kaloong", group: "wheel", groups: "root testuser" }
 
+test_users:
+  - { type: user, owner: "mensa", group: "mensa", groups: "root testuser"}

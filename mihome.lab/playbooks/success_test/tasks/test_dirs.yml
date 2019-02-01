@@ -1,5 +1,5 @@
 ---
-- name: Register "{{ test_cases }}" to be checked
+- name: Register
   stat:
     path: "{{ item.path }}"
   with_items: "{{ test_cases }}"

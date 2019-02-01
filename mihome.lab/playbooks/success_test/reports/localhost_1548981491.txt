@@ -1,0 +1,4 @@
+[i] ---FAILS! - Check Group ownership for folder: /home/kaloong.
+[i] ---FAILS! - Check Group ownership for folder: /home/mensa.
+[i] +++PASS~! - Check Group ownership for file: /home/mensa/.bash_profile.
+[i] ---FAILS! - Check Group ownership for file /home/kaloong/.bash_profile returns unknown.

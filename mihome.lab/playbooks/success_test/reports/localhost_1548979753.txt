@@ -1,0 +1,16 @@
+[i] +++PASS~! - Check if folder /home/mensa exists.
+[i] +++PASS~! - Check if file /home/mensa/.bash_profile exists.
+[i] ---FAILS! - Check if folder /home/kaloong exists returns unknown
+[i] ---FAILS! - Check if file /home/kaloong/.bash_profile exists returns unknown
+[i] +++PASS~! - Check mode permissions for folder: /home/mensa.
+[i] ---FAILS! - Check mode permissions for file: /home/mensa/.bash_profile.
+[i] ---FAILS! - Check mode permissions for folder /home/kaloong returns unknown.
+[i] ---FAILS! - Check mode permissions for file /home/kaloong/.bash_profile returns unknown.
+[i] ---FAILS! - Check Owner ownership for folder: /home/mensa.
+[i] +++PASS~! - Check Owner ownership for file: /home/mensa/.bash_profile.
+[i] ---FAILS! - Check Owner ownership for folder /home/kaloong returns unknown.
+[i] ---FAILS! - Check Owner ownership for file /home/kaloong/.bash_profile returns unknown.
+[i] ---FAILS! - Check Group ownership for folder: /home/mensa.
+[i] +++PASS~! - Check Group ownership for file: /home/mensa/.bash_profile.
+[i] ---FAILS! - Check Group ownership for folder /home/kaloong returns unknown.
+[i] ---FAILS! - Check Group ownership for file /home/kaloong/.bash_profile returns unknown.

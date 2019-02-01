@@ -1,11 +1,13 @@
 ---
 - hosts: localhost
-  #become: true
+  become: true
   gather_facts: true
   vars_files:
     - ../../inventories/dev/group_vars/sf
   tasks:
     - include_tasks: tasks/test_main.yml
-    - include_tasks: tasks/test_dirs.yml
-    - include_tasks: tasks/test_users.yml
+    #- include_tasks: tasks/test_dirs.yml
+    #- include_tasks: tasks/test_modes.yml
+    #- include_tasks: tasks/test_owners.yml
     - include_tasks: tasks/test_groups.yml
+    - include_tasks: tasks/test_users.yml
