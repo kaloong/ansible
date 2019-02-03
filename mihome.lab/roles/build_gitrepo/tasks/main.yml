@@ -1,0 +1,39 @@
+---
+- name: Create new Git user
+  user:
+    name: git
+    shell: /bin/bash
+    state: present
+    
+#- name: Create ssh key folders and authorized_keys file
+- name: Create Git repo directory
+  file:
+    path: "{{ gitrepo_path }}"
+    owner: git
+    group: git
+    mode: 0750
+    state: directory
+
+#- name: Install Git server
+#  yum: 
+#    name: git
+#    state: present
+
+- name: Set permission on Git repo directories 
+  file:
+    path: "{{ gitrepo_path }}"
+    mode: 0750
+- name: Check if repo exists
+  stat:
+    path: "{{ gitrepo_path }}/{{gitrepo_name}}"
+  register: gitrepo
+
+- name: Setup git repo
+  shell: git init --bare --shared=group "{{ gitrepo_path }}/{{ gitrepo_name }}"
+  when: not gitrepo.stat.exists 
+
+#  git:
+#    name: "{{ gitrepo_name }}"
+#    clone: no
+#    bare: yes
+#    accept_hostkey: no

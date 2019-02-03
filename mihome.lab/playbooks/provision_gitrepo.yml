@@ -1,0 +1,17 @@
+---
+#- hosts: newbuild15_vm
+- hosts: localhost 
+  #vars_files: 
+  #  - ../inventories/build/group_vars/mihome_vcenter_vars
+  vars:
+    - gitrepo_name: newrepo.git
+    - gitrepo_path: /srv/git
+  become: true
+  gather_facts: true
+  #connection: local
+  roles: 
+    - { role: "../roles/add_users" }                                            # Generate bootisos
+    - { role: "../roles/build_gitrepo" }                                            # Generate bootisos
+      #- { role: "../roles/transfer_bootiso", transfer_via: "nfs" }                                    # Transfer bootisos to DataStore
+      #- { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } }	# Deploy VMs with bootisos
+      # - { role: "../roles/vmware_adm", platform_target: "vm", vars: { guest_vm_state : "poweredon" } }	# Deploy VMs with bootisos

@@ -1,0 +1,23 @@
+---
+#- name: Check for required variables
+#  fail: 
+#    msg: "Must provide xxx to -e"
+#  when: ( something is not defined ) or  ( another thing is not defined )
+
+- name: Check if NFS is available.
+  fail:
+    msg: "{{ transfer_dest_target_mountpoint }} must be a mount point"
+  when: not transfer_dest_target_mountpoint | is_mount
+  #with_items:
+  #  - /data
+
+- name: Transfer file to SkullDataStore.
+  copy:
+    src: "{{ transfer_src_target }}"
+    dest: "{{ transfer_dest_target_nfs }}"
+    #  with_items: "{{ ansible_mounts }}"
+    #  when: '"SkullDataStore" in item.device'
+  with_items: "{{ ansible_mounts }}"
+  when: ( item.mount == '/data' and '"SkullDataStore" in item.device' )
+  tags:
+    - transfer_via_nfs
