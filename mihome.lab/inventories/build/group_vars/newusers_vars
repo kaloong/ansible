@@ -1,0 +1,6 @@
+users:
+  - { user_name: kaloong, user_home: /home/kaloong, user_comment: "Kaloong's test account", user_state: absent }
+  - { user_name: user1, user_home: /home/user1, user_comment: "User1's test account", user_state: absent }
+  - { user_name: user2, user_home: /home/user2, user_comment: "User2's test account", user_state: absent }
+  - { user_name: user3, user_home: /home/user3, user_comment: "User3's test account", user_state: absent }
+  - { user_name: user4, user_home: /home/user4, user_comment: "User4's test account", user_state: absent }

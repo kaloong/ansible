@@ -1,25 +1,34 @@
 ---
 - name: Add user
   user:
-    name: "{{ user_name }}"
-    comment: "{{ user_comment }}"
+    name: "{{ item.user_name }}"
+    comment: "{{ item.user_comment }}"
     #expires: -1 
-    state: present
+    state: "{{ item.user_state }}"
+  with_items: "{{ users }}"
+  when: ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" is defined )
 
 - name: Create .ssh directory
   file:
-    path: "{{ user_home }}{{ user_name }}/.ssh"
+    path: "{{ item.user_home }}/{{ item.user_name }}/.ssh"
     state: directory
-    owner: "{{ user_name }}"
-    group: "{{ user_name }}"
+    owner: "{{ item.user_name }}"
+    group: "{{ item.user_name }}"
     mode: 0700
     recurse: no
+  with_items: "{{ users }}"
+  when: ( "{{ item.user_name }}" is defined and "{{ item.user_home }}" is defined and "{{ item.user_state }}" == "present" )
 
-- name: Allow "{{ user_name }}" sudo passwordless
+- name: Allow "{{ item.user_name }}" sudo passwordless
   lineinfile:
     path: /etc/sudoers
-    line: "{{ user_name }} ALL=NOPASSWD: ALL"
+    line: "{{ item.user_name }} ALL=NOPASSWD: ALL"
     validate: '/usr/sbin/visudo -cf %s'
+    state: "{{ item.user_state }}"
+  with_items: "{{ users }}"
+  when: ( "{{ item.user_name }}" is defined )
 
 - name: Reenforce user account expiry.
-  command: /usr/bin/passwd -x -1 "{{ user_name }}"
+  command: /usr/bin/passwd -x -1 "{{ item.user_name }}"
+  with_items: "{{ users }}"
+  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "present" )

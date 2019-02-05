@@ -1,8 +1,9 @@
 ---
 #- hosts: newbuild15_vm
 - hosts: localhost 
-  #vars_files: 
+  vars_files: 
   #  - ../inventories/build/group_vars/mihome_vcenter_vars
+    - ../inventories/build/group_vars/newusers_vars
   vars:
     - gitrepo_name: newrepo.git
     - gitrepo_path: /srv/git
