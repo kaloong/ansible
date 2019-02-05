@@ -4,7 +4,7 @@
     name: git
     shell: /bin/bash
     state: present
-    
+
 #- name: Create ssh key folders and authorized_keys file
 - name: Create Git repo directory
   file:
@@ -15,11 +15,11 @@
     state: directory
 
 #- name: Install Git server
-#  yum: 
+#  yum:
 #    name: git
 #    state: present
 
-- name: Set permission on Git repo directories 
+- name: Set permission on Git repo directories
   file:
     path: "{{ gitrepo_path }}"
     mode: 0750
@@ -30,7 +30,7 @@
 
 - name: Setup git repo
   shell: git init --bare --shared=group "{{ gitrepo_path }}/{{ gitrepo_name }}"
-  when: not gitrepo.stat.exists 
+  when: not gitrepo.stat.exists
 
 #  git:
 #    name: "{{ gitrepo_name }}"

@@ -3,14 +3,14 @@
   user:
     name: "{{ item.user_name }}"
     comment: "{{ item.user_comment }}"
-    #expires: -1 
+    #expires: -1
     state: "{{ item.user_state }}"
   with_items: "{{ users }}"
   when: ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" is defined )
 
 - name: Create .ssh directory
   file:
-    path: "{{ item.user_home }}/{{ item.user_name }}/.ssh"
+    path: "{{ item.user_home }}/.ssh"
     state: directory
     owner: "{{ item.user_name }}"
     group: "{{ item.user_name }}"
@@ -18,6 +18,14 @@
     recurse: no
   with_items: "{{ users }}"
   when: ( "{{ item.user_name }}" is defined and "{{ item.user_home }}" is defined and "{{ item.user_state }}" == "present" )
+
+#- name: Generate ssh key
+#  openssh_keypair:
+#    path: "{{ item.user_name }}/.ssh/{{ item.username }}"
+#    size: 2048
+#    type: rsa
+#  when: ansible_version.full is version_compare('2.8','>=')
+
 
 - name: Allow "{{ item.user_name }}" sudo passwordless
   lineinfile:
