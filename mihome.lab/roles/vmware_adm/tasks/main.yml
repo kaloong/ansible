@@ -1,9 +1,20 @@
 ---
-- name: Adding vm tasks
-  import_tasks: vm/vm.yml
-  when: platform_target == "vm"
+- name: Read defaults vars from role
+  include_vars: ../defaults/main.yml
 
-- name: Addming esxi tasks
+- name: Adding vm tasks
+  import_tasks: vm/vm_create.yml
+  when: 
+    - platform_target == "vm"
+    - action == "create"
+
+- name: Adding vm tasks
+  import_tasks: vm/vm_destroy.yml
+  when: 
+    - platform_target == "vm"
+    - action == "destroy"
+
+- name: Adding esxi tasks
   import_tasks: esxi/esxi.yml
   when: platform_target == "esxi"
   #when: host_state is defined and host_force is defined

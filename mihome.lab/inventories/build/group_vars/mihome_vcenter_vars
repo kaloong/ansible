@@ -1,6 +1,6 @@
 ##bootiso_local_dir: /tmp/bootiso 
 # bootiso_filename: "{{ '%Y%m%d' | strftime( ansible_date_time.epoch ) }}_{{ inventory_hostname }}.iso"
-##bootiso_filename: "{{ inventory_hostname }}.iso"
+bootiso_filename: "{{ inventory_hostname }}.iso"
 
 deployment_vcenter: 172.16.21.30
 deployment_user: svc_vmdeployer@mega.lan
