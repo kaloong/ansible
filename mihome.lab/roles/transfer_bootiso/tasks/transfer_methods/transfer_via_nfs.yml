@@ -7,7 +7,7 @@
 - name: Check if NFS is available.
   fail:
     msg: "{{ transfer_dest_target_mountpoint }} must be a mount point"
-  when: not transfer_dest_target_mountpoint | is_mount
+  when: not transfer_dest_target_mountpoint is is_mount
   #with_items:
   #  - /data
 

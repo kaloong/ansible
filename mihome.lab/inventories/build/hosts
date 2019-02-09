@@ -23,4 +23,5 @@ esk02 esxi_host=172.16.21.22
 esk03 esxi_host=172.16.21.23
 
 [infra_vm]
-INFRA_0001 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.101 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Infra #0001"
+INFRA_0001 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.101 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Infra Repo"
+INFRA_0002 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.102 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Infra DNS"
