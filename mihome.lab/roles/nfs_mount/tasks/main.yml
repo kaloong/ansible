@@ -1,0 +1,27 @@
+---
+- name: Create mkdir
+  file:
+    path: "{{ PKG_REPO_PATH }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Install nfs-utils
+  yum:
+    name: nfs-utils
+    state: present
+  notify: 
+    - start rpcbind
+- name: Start rpcbind
+  service:
+    name: rpcbind
+    state: started
+
+- name: Add NFS repo to fstab
+  mount:
+    path: "{{ PKG_REPO_PATH }}"
+    src: 172.16.30.100:/volume1/repos
+    fstype: nfs
+    opts: _netdev,auto
+    state: mounted
