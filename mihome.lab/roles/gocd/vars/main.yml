@@ -1,0 +1,5 @@
+gocd_packages:
+  - { package: "tree", state: present }
+  - { package: "libselinux-python", state: present }
+  - { package: "java-1.8.0-openjdk", state: present }
+  - { package: "go-server", state: present }

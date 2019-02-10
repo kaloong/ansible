@@ -1,0 +1,18 @@
+---
+- name: Set NetworkManaged to no
+  lineinfile:
+    path: "/etc/sysconfig/network-scripts/ifcfg-eth0"
+    line: NM_CONTROLLED="NO"
+    regexp: "^NM_CONTROLLED"
+    state: present
+  tags:
+    - set_nm
+
+- name: Set search path
+  lineinfile:
+    path: "/etc/resolv.conf"
+    line: search mega.lan
+    regexp: "^#"
+    state: present
+  tags:
+    - set_nm

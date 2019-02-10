@@ -1,0 +1,36 @@
+---
+#- name: Get GoCD
+#  get_url: 
+#     url: "{{ item.url }}{{ item.name }}"
+#     dest: "/tmp/{{ item.name }}"
+#     #validate_certs: False 
+#     #force_basic_auth: yes
+#  with_items:
+#    - "{{ gocd_server_url }}"
+#  tags:
+#    - download_gocd
+
+- name: Add GoCD repo
+  yum_repository:
+    name: GoCD
+    description: GoCD Yum repo
+    file: gocd
+    baseurl: https://download.gocd.org/
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.gocd.org/GOCD-GPG-KEY.asc
+  tags:
+    - add_go_repo
+
+- name: Install go-servers dependencies
+  yum:
+    name: "{{ item.package }}"
+    state: "{{ item.state }}"
+  with_items: "{{ gocd_packages }}"
+  tags:
+    - install_go
+
+- name: Start go server
+  service:
+    name: go-server
+    state: started
