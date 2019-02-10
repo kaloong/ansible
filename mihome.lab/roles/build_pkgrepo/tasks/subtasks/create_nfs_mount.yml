@@ -1,0 +1,16 @@
+---
+- name: Create mkdir
+  file:
+    path: "{{ local_repos_path }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Add NFS repo to fstab
+  mount:
+    path: "{{ local_repos_path }}"
+    src: 172.16.30.100:/volume1/repos
+    fstype: nfs
+    opts: _netdev,auto
+    state: mounted

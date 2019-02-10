@@ -1,0 +1,26 @@
+---
+local_repos_path: /var/www/repos
+local_repos_packages:
+  - { package: "tree", state: present }
+  - { package: "nfs-utils", state: present }
+  - { package: "createrepo", state: present }
+    
+local_repos:
+  - { distro: "centos", version: "6.10", repo: "centosplus", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "contrib", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "cr", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "extras", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "fasttrack", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "isos", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "os", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "updates", arch: "i386", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "centosplus", arch: "x86_86", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "contrib", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "cr", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "extras", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "fasttrack", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "isos", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "os", arch: "x86_64", mirror: "mirror.centos.com" }
+  - { distro: "centos", version: "6.10", repo: "updates", arch: "x86_64", mirror: "mirror.centos.com" }
+
+

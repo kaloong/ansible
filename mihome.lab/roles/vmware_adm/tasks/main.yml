@@ -1,6 +1,6 @@
 ---
-#- name: Adding default variables
-#  include_vars: ../defaults/vmware_adm_vars
+- name: Adding default variables
+  include_vars: "../defaults/vmware_adm_vars"
 
 - name: Adding vm tasks
   import_tasks: vm/vm_create.yml

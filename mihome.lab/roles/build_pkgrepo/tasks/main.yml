@@ -1,0 +1,9 @@
+---
+- name: Install packages
+  include_tasks: subtasks/install_packages.yml
+
+- name: Create Repo
+  include_tasks: subtasks/create_nfs_mount.yml
+
+- name: Create Repo
+  include_tasks: subtasks/create_repo.yml

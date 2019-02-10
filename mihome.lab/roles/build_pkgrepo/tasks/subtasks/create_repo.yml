@@ -1,0 +1,10 @@
+---
+- name: Create repo directories 
+  file:
+    path: "{{ local_repos_path }}/{{ item.distro }}/{{ item.repo }}/{{ item.version }}/{{ item.arch }}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  with_items:
+    - "{{ local_repos }}"

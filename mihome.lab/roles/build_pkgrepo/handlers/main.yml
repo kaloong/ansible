@@ -12,4 +12,4 @@
 - name: start rpcbind
   service:
     name: rpcbind
-    state: start
+    state: restarted

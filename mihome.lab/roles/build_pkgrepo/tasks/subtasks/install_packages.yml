@@ -1,0 +1,15 @@
+---
+- name: Install packages
+  yum:
+    name: "{{ item.package }}"
+    state: "{{ item.state }}" 
+  with_items:
+    - "{{ local_repos_packages }}"
+#  notify: 
+#- start rpcbind
+
+- name: Start rpcbind
+  service:
+    name: rpcbind
+    state: started
+
