@@ -1,0 +1,11 @@
+---
+- name: Get GoCD
+  get_url: 
+     url: "{{ item.url }}{{ item.name }}"
+     dest: "/tmp/{{ item.name }}"
+     validate_certs: False 
+     force_basic_auth: yes
+  with_items:
+    - "{{ gocd_server_url }}"
+  tags:
+    - download_gocd

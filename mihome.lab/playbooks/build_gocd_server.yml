@@ -1,0 +1,11 @@
+---
+- hosts: INFRA_0001
+  #vars_files: 
+  #  - ../inventories/build/group_vars/mihome_vcenter_vars
+  #vars:
+  #  - PKG_REPO_PATH: /var/www/repos
+  become: true
+  gather_facts: true
+  #connection: local
+  roles: 
+    - { role: "../roles/gocd" }

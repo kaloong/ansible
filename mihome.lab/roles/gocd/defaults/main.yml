@@ -1,0 +1,6 @@
+---
+gocd_server_url:
+  - { name: "go-server-19.1.0-8469.noarch.rpm", url: "https://download.gocd.org/binaries/19.1.0-8469/rpm/"  }
+
+gocd_agent_url:
+  - { name: "go-agent-19.1.0-8469.noarch.rpm", url: "https://download.gocd.org/binaries/19.1.0-8469/rpm/"  }
