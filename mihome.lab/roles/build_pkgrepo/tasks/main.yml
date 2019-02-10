@@ -2,8 +2,13 @@
 - name: Install packages
   include_tasks: subtasks/install_packages.yml
 
-- name: Create Repo
+- name: Create NFS mount 
   include_tasks: subtasks/create_nfs_mount.yml
 
-- name: Create Repo
+- name: Create Repo structure
   include_tasks: subtasks/create_repo.yml
+
+- name: Download ISOs
+  include_tasks: subtasks/download_isos.yml
+  tags:
+    - download_isos

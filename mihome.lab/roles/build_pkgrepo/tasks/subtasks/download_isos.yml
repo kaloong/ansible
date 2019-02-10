@@ -1,0 +1,18 @@
+---
+#- name: Info
+#  debug:
+#    msg: "Download {{ item.url }}{{item.name}}"
+#  with_items:
+#    - "{{ local_iso_urls }}"
+#  tags:
+#    - download_isos
+
+- name: Download ISOs 
+  get_url:
+    url: "{{ item.url }}{{ item.name }}"
+    dest: "/var/www/repos/isos/{{ item.name }}"
+    checksum: "sha256:{{ item.url }}{{ item.checksum }}"
+  with_items:
+    - "{{ local_iso_urls }}"
+  tags:
+    - download_isos

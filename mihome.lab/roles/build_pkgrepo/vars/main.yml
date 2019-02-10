@@ -4,6 +4,7 @@ local_repos_packages:
   - { package: "tree", state: present }
   - { package: "nfs-utils", state: present }
   - { package: "createrepo", state: present }
+  - { package: "libselinux-python", state: present }
     
 local_repos:
   - { distro: "centos", version: "6.10", repo: "centosplus", arch: "i386", mirror: "mirror.centos.com" }
@@ -23,4 +24,42 @@ local_repos:
   - { distro: "centos", version: "6.10", repo: "os", arch: "x86_64", mirror: "mirror.centos.com" }
   - { distro: "centos", version: "6.10", repo: "updates", arch: "x86_64", mirror: "mirror.centos.com" }
 
+local_iso_urls:
+  - { name: "CentOS-5.10-i386-bin-DVD-1of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.10/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.10-i386-bin-DVD-2of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.10/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.11-i386-bin-DVD-1of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.11/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.11-i386-bin-DVD-2of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.11/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.5-i386-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.5/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.5-i386-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.5/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.6-i386-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.6/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.6-i386-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.6/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.7-i386-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.7/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.7-i386-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.7/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.8-i386-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.8/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.8-i386-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.8/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.9-i386-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.9-i386-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/i386/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.10-x86_64-bin-DVD-1of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.10/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.10-x86_64-bin-DVD-2of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.10/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.11-x86_64-bin-DVD-1of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.11/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-5.11-x86_64-bin-DVD-2of2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/5.11/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.5-x86_64-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.5/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.5-x86_64-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.5/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.6-x86_64-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.6/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.6-x86_64-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.6/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.7-x86_64-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.7/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.7-x86_64-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.7/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.8-x86_64-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.8/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.8-x86_64-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.8/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.9-x86_64-bin-DVD1.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-6.9-x86_64-bin-DVD2.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/x86_64/", checksum: "sha256sum.txt" }
+    #- { name: c610_1, url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/x86_64/CentOS-6.9-x86_64-bin-DVD1.iso", checksum: "sha256sum.txt" }
+    #- { name: c610_2, url: "http://mirror.nsc.liu.se/centos-store/centos/6.9/isos/x86_64/CentOS-6.9-x86_64-bin-DVD2.iso", checksum: "sha256sum.txt" }
+  - { name: "Centos-7.0-1406-Everything.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.0.1406/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "Centos-7-x86_64-Everything-1503-01.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.1.1503/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "Centos-7-x86_64-Everything-1511.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.2.1511/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "Centos-7-x86_64-Everything-1611.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.3.1611/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "Centos-7-x86_64-Everything-1708.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.4.1708/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "Centos-7-x86_64-Everything-1804.iso", url: "http://mirror.nsc.liu.se/centos-store/centos/7.5.1804/isos/x86_64/", checksum: "sha256sum.txt" }
+  - { name: "CentOS-7-x86_64-Everything-1810.iso", url: "http://mirrors.coreix.net/centos/7.6.1810/isos/x86_64/", checksum: "sha256sum.txt" }
 
