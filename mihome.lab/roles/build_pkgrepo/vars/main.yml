@@ -5,6 +5,8 @@ local_repos_packages:
   - { package: "nfs-utils", state: present }
   - { package: "createrepo", state: present }
   - { package: "libselinux-python", state: present }
+  - { package: "python-urllib3", state: present }
+  - { package: "pyOpenSSL", state: present }
     
 local_repos:
   - { distro: "centos", version: "6.10", repo: "centosplus", arch: "i386", mirror: "mirror.centos.com" }
