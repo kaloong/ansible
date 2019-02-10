@@ -1,0 +1,11 @@
+---
+- name: Copy motd file.
+  copy:
+    src: "{{FILE_MOTD_SRCPATH}}"
+    dest: "{{FILE_MOTD_DESTPATH}}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  tags:
+    - set_motd

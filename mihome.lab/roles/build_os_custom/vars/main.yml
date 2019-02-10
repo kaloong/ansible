@@ -1,0 +1,66 @@
+---
+FILE_BANNER_SRCPATH             : banner
+FILE_BANNER_DESTPATH            : /etc/issue
+
+FILE_MOTD_SRCPATH               : motd
+FILE_MOTD_DESTPATH              : /etc/motd
+
+FILE_ISSUE_SRCPATH              : issue
+FILE_ISSUE_DESTPATH             : /etc/issue
+ETC_PROFILE                     : /etc/profile
+
+ULIMIT_VAR_1                    : "ulimit -S -c 0 >/dev/null 2>&1"
+
+UMASK_VAR_1                     : "    umask 027"
+
+TEMPLATE_PWQUALITY_SRC          : "{{role_path}}/templates/pwquality.conf.j2"
+TEMPLATE_PWQUALITY_DEST         : /etc/security/pwquality.conf
+VAR_DCREDIT                     : -1
+VAR_MINLEN                      : 8
+VAR_UCREDIT                     : -1
+VAR_OCREDIT                     : -1
+
+VAR_SELINUXTYPE                 : targeted
+VAR_SELINUX                     : permissive
+
+FILE_SYSCTL_SRCPATH             : /etc/sysctl.d/99-sysctl.conf
+FILE_SYSCTL_DESTPATH            : /etc/sysctl.d/99-sysctl.conf
+TEMPLATE_RSYSLOG_SRC            : "{{role_path}}/templates/00-syslog.conf.j2"
+
+TEMPLATE_LOGINDEFS_SRC          : "{{role_path}}/templates/login.defs.j2"
+TEMPLATE_LOGINDEFS_DEST         : /etc/login.defs
+VAR_DCREDIT                     : "-1"
+VAR_MINLEN                      : "8"
+VAR_UCREDIT                     : "-1"
+VAR_OCREDIT                     : "-1"
+VAR_MAIL_DIR                    : /var/spool/mail
+VAR_PASS_MAX_DAYS               : "28"
+VAR_PASS_MIN_DAYS               : "0"
+VAR_PASS_MIN_LEN                : "8"
+VAR_PASS_WARN_AGE               : "7"
+VAR_UID_MIN                     : "500"
+VAR_UID_MAX                     : "60000"
+VAR_GID_MIN                     : "500"
+VAR_GID_MAX                     : "60000"
+VAR_CREATE_HOME                 : "yes"
+VAR_UMASK                       : "077"
+VAR_USERGROUPS_ENAB             : "yes"
+VAR_ENCRYPT_METHOD              : "SHA512"
+#Rsyslog vars
+FILE_RSYSLOG_SRCPATH            : /etc/rsyslog.conf
+TEMPLATE_RSYSLOG_SRC            : "{{role_path}}/templates/00-syslog.conf.j2"
+TEMPLATE_RSYSLOG_DEST           : /etc/rsyslog.d/00-syslog.conf
+
+FILE_SSHD_CONFIG                : /etc/ssh/sshd_config
+SSHD_VALIDATE                   : sshd -t -f %s
+SSHD_APPROVED_MACS              : MACs hmac-sha2-512,hmac-sha2-256
+SSHD_APPROVED_MACS_REGEXP       : ^MACs
+SSHD_APPROVED_CIPHERS           : Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+SSHD_APPROVED_CIPHERS_REGEXP    : ^Ciphers
+SSHD_PERMIT_ROOT_LOGIN          : PermitRootLogin no
+SSHD_PERMIT_ROOT_LOGIN_REGEXP   : ^PermitRootLogin
+SSHD_PRINT_LASTLOG              : PrintLastLog yes
+SSHD_PRINT_LASTLOG_REGEXP       : ^PrintLastLog
+SSHD_BANNER_ISSUE               : Banner /etc/issue
+SSHD_BANNER_ISSUE_REGEXP        : ^Banner
+

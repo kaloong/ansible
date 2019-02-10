@@ -1,7 +1,0 @@
----
-TEMPLATE_PWQUALITY_SRC      : "{{role_path}}/templates/pwquality.conf.j2"
-TEMPLATE_PWQUALITY_DEST     : /etc/security/pwquality.conf
-VAR_DCREDIT                 : -1
-VAR_MINLEN                  : 8
-VAR_UCREDIT                 : -1
-VAR_OCREDIT                 : -1

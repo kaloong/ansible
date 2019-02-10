@@ -1,42 +1,8 @@
 ---
-- name: Add user
-  user:
-    name: "{{ item.user_name }}"
-    comment: "{{ item.user_comment }}"
-    #expires: -1
-    state: "{{ item.user_state }}"
-  with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" is defined )
+- name: Add OS users
+  include_tasks: subtasks/add_os_users.yml
+  when: action is "os"
 
-- name: Create .ssh directory
-  file:
-    path: "{{ item.user_home }}/.ssh"
-    state: directory
-    owner: "{{ item.user_name }}"
-    group: "{{ item.user_name }}"
-    mode: 0700
-    recurse: no
-  with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_home }}" is defined and "{{ item.user_state }}" == "present" )
-
-#- name: Generate ssh key
-#  openssh_keypair:
-#    path: "{{ item.user_name }}/.ssh/{{ item.username }}"
-#    size: 2048
-#    type: rsa
-#  when: ansible_version.full is version_compare('2.8','>=')
-
-
-- name: Allow "{{ item.user_name }}" sudo passwordless
-  lineinfile:
-    path: /etc/sudoers
-    line: "{{ item.user_name }} ALL=NOPASSWD: ALL"
-    validate: '/usr/sbin/visudo -cf %s'
-    state: "{{ item.user_state }}"
-  with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined )
-
-- name: Reenforce user account expiry.
-  command: /usr/bin/passwd -x -1 "{{ item.user_name }}"
-  with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "present" )
+- name: Add Satman user
+  include_tasks: subtasks/add_satman_user.yml
+  when: action is "satman"

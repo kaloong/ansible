@@ -1,0 +1,9 @@
+---
+- name: Copy issue file.
+  copy:
+    src: "{{FILE_ISSUE_SRCPATH}}"
+    dest: "{{FILE_ISSUE_DESTPATH}}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: no

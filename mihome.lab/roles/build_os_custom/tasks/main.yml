@@ -1,0 +1,28 @@
+---
+- name: Set motd
+  include_tasks: subtasks/motd.yml
+
+- name: Set Banner
+  include_tasks: subtasks/banner.yml
+
+- name: Set ulimit
+  include_tasks: subtasks/ulimit.yml
+
+- name: Set umask
+  include_tasks: subtasks/umask.yml
+
+- name: Set passwrod quality
+  include_tasks: subtasks/password_quality.yml
+
+- name: Set SELinux policy
+  include_tasks: subtasks/selinux.yml
+
+- name: Set kernel params
+  include_tasks: subtasks/kernel_params.yml
+
+- name: Set Login definition
+  include_tasks: subtasks/login_defs.yml
+
+- name: Set Rsyslog
+  include_tasks: subtasks/rsyslog.yml
+

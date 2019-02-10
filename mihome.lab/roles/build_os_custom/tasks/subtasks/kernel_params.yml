@@ -1,0 +1,109 @@
+---
+###################### Test #######################
+- name: Test that it is used on Linux only. Part A
+  assert:
+    that:
+      - "ansible_os_family == 'RedHat'"
+  tags:
+    - set_kernel_params
+    - test_pre_kernel_params_1
+
+#- name: Test that {{FILE_SYSCTL_SRCPATH}} file exists. Part B
+#  stat:
+#    path: "{{FILE_SYSCTL_DESTPATH}}"
+#  register: p
+#  tags:
+#    - set_kernel_params
+#    - test_pre_kernel_params_1
+#
+#- name: Test that {{FILE_SYSCTL_SRCPATH}} file exists. Part C
+#  assert:
+#    that:
+#      - p.stat.exists and p.stat.path
+#  tags:
+#    - set_kernel_params
+#    - test_pre_kernel_params_1
+
+
+################# Make the change ###################
+# Reduce swap usage
+- name: sysctl - vm.swappiness
+  sysctl: name=vm.swappiness value=1 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.ip_forward
+  sysctl: name=net.ipv4.ip_forward value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.all.send_redirects
+  sysctl: name=net.ipv4.conf.all.send_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.default.send_redirects
+  sysctl: name=net.ipv4.conf.default.send_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.all.accept_redirects
+  sysctl: name=net.ipv4.conf.all.accept_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.default.accept_redirects
+  sysctl: name=net.ipv4.conf.default.accept_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv6.conf.all.accept_redirects
+  sysctl: name=net.ipv6.conf.all.accept_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv6.conf.default.accept_redirects
+  sysctl: name=net.ipv6.conf.default.accept_redirects value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.all.accept_source_route
+  sysctl: name=net.ipv4.conf.all.accept_source_route value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.default.accept_source_route
+  sysctl: name=net.ipv4.conf.default.accept_source_route value=0 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.tcp_max_syn_backlog
+  sysctl: name=net.ipv4.tcp_max_syn_backlog value=4096 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.icmp_echo_ignore_broadcasts
+  sysctl: name=net.ipv4.icmp_echo_ignore_broadcasts value=1 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.all.log_martians
+  sysctl: name=net.ipv4.conf.all.log_martians value=1 state=present
+  tags:
+    - set_kernel_params
+  when: ansible_facts['distribution_version'] is version ('6.10','<=')
+
+- name: sysctl - net.ipv4.conf.default.log_martians
+  sysctl: name=net.ipv4.conf.default.log_martians value=1 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.conf.all.rp_filter
+  sysctl: name=net.ipv4.conf.all.rp_filter value=1 state=present
+  tags:
+    - set_kernel_params
+
+- name: sysctl - net.ipv4.tcp_timestamps
+  sysctl: name=net.ipv4.tcp_timestamps value=0 state=present
+  tags:
+    - set_kernel_params

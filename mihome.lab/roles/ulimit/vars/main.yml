@@ -1,3 +1,0 @@
----
-ETC_PROFILE     : /etc/profile
-ULIMIT_VAR_1    : "ulimit -S -c 0 >/dev/null 2>&1"

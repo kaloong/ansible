@@ -1,0 +1,24 @@
+---
+################# Make the change ###################
+- name: Set ulimit as per build standard in {{ETC_PROFILE}}
+  lineinfile:
+    path: "{{ETC_PROFILE}}"
+    line: "{{ULIMIT_VAR_1}}"
+    regexp: ulimit
+    insertafter: (?i) pathmunge
+    state: present
+
+###################### Test #######################
+- name: Test that ulimit is set in {{ETC_PROFILE}}. Part A
+  shell: "/bin/cat {{ETC_PROFILE}}"
+  register: cmd_result
+  tags:
+    - set_ulimit
+    - test_post_ulimit_1
+
+- name: Test that ulimit is set in {{ETC_PROFILE}}. Part B
+  assert:
+    that:
+      - "'{{ULIMIT_VAR_1}}' in cmd_result.stdout"
+      - "'error' not in cmd_result.stderr"
+

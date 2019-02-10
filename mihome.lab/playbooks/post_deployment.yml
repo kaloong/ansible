@@ -1,16 +1,5 @@
 ---
 - hosts: DC1_BUILD
   become: true
-  roles: 
-    #- ../roles/ulimit 		# Linux roles
-    #- ../roles/sshd 		# Linux roles
-    #- ../roles/issue 		# Linux roles
-    #- ../roles/motd 		# Linux roles
-    #- ../roles/add_users 	# Linux roles
-    #- ../roles/ulimit 		# Linux roles
-    #- ../roles/umask 		# Linux roles
-    #- ../roles/rsyslog 	# Linux roles
-    #- ../roles/pwquality 	# Linux roles
-    #- ../roles/selinux 	# Linux roles
-    #- ../roles/logindefs 	# Linux roles
-    - ../roles/kparams 		# Linux roles
+  roles:
+    - { role: ../roles/build_os_custom }             # Linux roles
