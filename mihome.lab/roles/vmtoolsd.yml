@@ -1,0 +1,38 @@
+---
+- name: "Check VMware Tool process"
+  shell: ps -ef | grep [v]mtoolsd
+  register: chk1
+  #ignore_errors: true
+  failed_when: chk1.rc >=2
+
+- name: "Extract the VMware Tools package from central location"
+  unarchive:
+    src: http://repo.local.xyz/pub/vmwaretools.tar.gz
+    dest: /tmp/
+    remote_src: yes
+  when: "'vmtoolsd' not in chk1.stdout"
+
+#  - name: "Debug"
+#    debug:
+#      msg:
+#        - "{{ chk1.stdout }}"
+#    when: "'vmtoolsd' in chk1.stdout"
+#    tags: run_install
+
+- name: "Check VMware Tool version"
+  shell: /usr/sbin/vmtoolsd -v
+  when: "'vmtoolsd' in chk1.stdout"
+  register: chk2
+
+#  - name: "Debug"
+#    debug:
+#      msg:
+#        - "{{ chk2 }}"
+#    when: "'chk2' is defined"
+#    tags: run_install
+
+- name: "Install VMware Tools"
+  shell: "/tmp/vmware-tools-distrib/vmware-install.pl -d"
+  ignore_errors: true
+  when: "'vmtoolsd' not in chk1.stdout or '10.3.2' not in chk2.stdout"
+  tags: run_install
