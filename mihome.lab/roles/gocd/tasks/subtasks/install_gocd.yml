@@ -30,6 +30,28 @@
   tags:
     - install_go
 
+#- name: Add rules to iptables
+#  iptables:
+#    chain: INPUT
+#    protocol: tcp
+#    destination_port: 8153
+#    ctstate: NEW
+#    syn: match
+#    jump: ACCEPT
+#    comment: Accept new GoCD connections.
+#  tags:
+#    - fw_rules
+#  notify:
+#    - restart iptables
+#
+- name: Stop iptables
+  service:
+    name: iptables
+    enabled: False
+    state: stopped
+  tags:
+    - fw_rules
+
 - name: Start go server
   service:
     name: go-server

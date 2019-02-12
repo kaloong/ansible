@@ -8,5 +8,6 @@
 - name: Install GoCD
   include_tasks: subtasks/install_gocd.yml
   tags: 
+    - fw_rules 
     - add_go_repo
     - install_go

@@ -3,3 +3,5 @@ gocd_packages:
   - { package: "libselinux-python", state: present }
   - { package: "java-1.8.0-openjdk", state: present }
   - { package: "go-server", state: present }
+  - { package: "git", state: present }
+  - { package: "open-vm-tools", state: present }

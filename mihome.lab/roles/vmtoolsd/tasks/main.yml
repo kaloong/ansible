@@ -7,7 +7,7 @@
 
 - name: "Extract the VMware Tools package from central location"
   unarchive:
-    src: http://repo.local.xyz/pub/vmwaretools.tar.gz
+    src: "{{ vmware_tools.url }}{{ vmware_tools.name }}"
     dest: /tmp/
     remote_src: yes
   when: "'vmtoolsd' not in chk1.stdout"

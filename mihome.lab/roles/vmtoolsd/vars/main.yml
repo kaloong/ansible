@@ -1,0 +1,2 @@
+vmware_tools_packages:
+  - { package: "open-vm-tools", state: present }

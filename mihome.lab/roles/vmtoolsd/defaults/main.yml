@@ -1,0 +1,3 @@
+---
+vmware_tools:
+  - { name: "vmwaretools.tar.gz", url: "http://repo.local.xyz/pub/" }
