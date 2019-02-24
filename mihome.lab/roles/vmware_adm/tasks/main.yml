@@ -10,6 +10,10 @@
   import_tasks: vm/vm_destroy.yml
   when: ( platform_target == "vm" and action == "destroy" )
 
-- name: Adding esxi tasks
+#- name: Adding esxi tasks
+#  import_tasks: esxi/esxi.yml
+#  when: ( platform_target == "esxi" and action == "create" )
+
+- name: Shutdown esxi tasks
   import_tasks: esxi/esxi.yml
-  when: ( platform_target == "esxi" and action == "create" )
+  when: ( platform_target == "esxi" and action == "shutdown" )
