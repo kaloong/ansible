@@ -16,6 +16,10 @@ VM_0018 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" n
 [newbuild19_vm]
 VM_0019 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.119 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:19 netmask=255.255.255.0 guest_notes="Sandbox #19"
 
+[test_vm]
+TEST_0030 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.130 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:30 netmask=255.255.255.0 guest_notes="TEST 7 #30"
+TEST_0031 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.131 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:31 netmask=255.255.255.0 guest_notes="TEST 7 #31"
+
 [esxi_hosts]
 esk00 esxi_host=172.16.21.20
 esk01 esxi_host=172.16.21.21
@@ -25,3 +29,4 @@ esk03 esxi_host=172.16.21.23
 [infra_vm]
 INFRA_0001 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.101 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Infra Repo"
 INFRA_0002 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.102 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Infra DNS"
+INFRA_0003 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.103 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Infra Config manager"

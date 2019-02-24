@@ -1,22 +1,15 @@
 ---
 - name: Adding default variables
-  include_vars: "../defaults/vmware_adm_vars"
+  include_vars: "../defaults/main.yml"
 
 - name: Adding vm tasks
   import_tasks: vm/vm_create.yml
-  when: 
-    - platform_target == "vm"
-    - action == "create"
+  when: ( platform_target == "vm" and action == "create" )
 
 - name: Adding vm tasks
   import_tasks: vm/vm_destroy.yml
-  when: 
-    - platform_target == "vm"
-    - action == "destroy"
+  when: ( platform_target == "vm" and action == "destroy" )
 
 - name: Adding esxi tasks
   import_tasks: esxi/esxi.yml
-  when: 
-    - platform_target == "esxi"
-    - action == "create"
-  #when: host_state is defined and host_force is defined
+  when: ( platform_target == "esxi" and action == "create" )
