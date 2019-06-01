@@ -32,4 +32,4 @@ INFRA_0002 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network
 INFRA_0003 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.103 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Infra Config manager"
 
 [unas00_hw]
-unas00 netdev=enp0s20f1 netvlan=21 netip=172.16.21.19 netgw=172.16.21.10 netmask=255.255.255.0 os_disk=sdf
+unas00 netdev=enp0s20f1 netvlan=21 netip=172.16.21.19 netgw=172.16.21.10 netmask=255.255.255.0 os_disk=sdf iso2img="true"

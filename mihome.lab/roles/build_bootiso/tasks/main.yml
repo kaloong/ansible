@@ -81,7 +81,7 @@
   get_url: 
     url: "{{ iso_urls[ os_version ] }}/isolinux/{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
-    force: false
+    force: true
   with_items: "{{ isolinux_boot_files[ os_version.split('.')[0] ] }}"
   when: 
     - os_version is defined 
@@ -129,7 +129,7 @@
     - build_bootiso 
 
 - name: Generate boot ISO in ClearLinux
-  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -isohybrid-mbr -J -r  "{{ tmpdir.path }}"
+  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.path }}"
   register: build_out
   when: 
     - ansible_os_family == "ClearLinux" or ansible_os_family == "Kali GNU/Linux Rolling"
