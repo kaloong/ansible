@@ -11,7 +11,11 @@ url --url="{{ iso_urls[ os_version ] }}"
 firstboot --enable
 
 # Using only primary disk, ignoring others
-ignoredisk --only-use=sda
+{% if os_disk is defined and os_disk|length %}
+ignoredisk --only-use={{os_disk}} --drives=sde,sdd,sdc,sdb
+{% else %}
+ignoredisk --only-use=sda --drives=sde,sdd,sdc,sdb
+{% endif %}
 
 # Setting up language to English
 lang en-GB.UTF-8
