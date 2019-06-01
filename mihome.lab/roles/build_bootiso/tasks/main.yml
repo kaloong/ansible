@@ -129,20 +129,34 @@
     - build_bootiso 
 
 - name: Generate boot ISO in ClearLinux
-  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.path }}"
+  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -isohybrid-mbr -J -r  "{{ tmpdir.path }}"
   register: build_out
   when: 
-    - ansible_os_family == "ClearLinux"
+    - ansible_os_family == "ClearLinux" or ansible_os_family == "Kali GNU/Linux Rolling"
     - os_version is defined and iso_urls[ os_version ] is defined
   tags:
     - build_bootiso 
 
+- name: Convert ISO to Img in ClearLinux
+  shell: isohybrid "{{ bootiso_local_dir }}/{{ bootiso_filename }}"
+  when:
+    - ( ansible_os_family == "ClearLinux" or ansible_os_family == "Kali GNU/Linux Rolling" ) and iso2img is defined and iso2img == "true"
+  tags:
+    - build_bootiso 
+
 - name: Generate boot ISO in OSX
-  shell: mkisofs -T -R -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -J "{{ tmpdir.path }}"
+  shell: mkisofs -T -R -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J "{{ tmpdir.path }}"
   register: build_out
   when: 
     - ansible_os_family == "Darwin"
     - os_version is defined and iso_urls[ os_version ] is defined
+  tags:
+    - build_bootiso 
+
+- name: Convert ISO to Img in OSX
+  shell: hdiutil convert -format UDRW -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" "{{ bootiso_local_dir }}/{{ bootiso_filename}}.img"
+  when:
+    - ansible_os_family== "Darwin" and iso2img is defined and iso2img == "true"
   tags:
     - build_bootiso 
 
