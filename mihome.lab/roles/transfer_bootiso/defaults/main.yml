@@ -7,13 +7,13 @@ deployment_pass: !vault |
       32613163653266636631336263313933316639353035663735306661363462333537396666623262
       3462626363613366610a303235353164386565323231653836633237333237383937636532663239
       3965
-deployment_datacenter: mihome.lab
+deployment_datacenter: MihomeDC
 deployment_is_template: no
 deployment_folder: /vm
 deployment_iso_datastore: SkullDataStore
 deployment_iso_path: "bootiso/{{ inventory_hostname }}.iso"
 transfer_src_target: "/tmp/bootiso/{{ inventory_hostname }}.iso"
-transfer_dest_target_mountpoint: "/data"
-transfer_dest_target_nfs: "/data/bootiso/"
+transfer_dest_target_mountpoint: "/Volumes/SkullDataStore"
+transfer_dest_target_nfs: "/Volumes/SkullDataStore/bootiso"
 transfer_dest_target_vcenter: "bootiso/{{ inventory_hostname }}.iso"
 transfer_via: "nfs"

@@ -17,7 +17,7 @@
     dest: "{{ transfer_dest_target_nfs }}"
     #  with_items: "{{ ansible_mounts }}"
     #  when: '"SkullDataStore" in item.device'
-  with_items: "{{ ansible_mounts }}"
-  when: ( item.mount == '/data' and '"SkullDataStore" in item.device' )
+    ##with_items: "{{ ansible_mounts }}"
+    ##when: ( item.mount == '/data' and '"SkullDataStore" in item.device' )
   tags:
     - transfer_via_nfs

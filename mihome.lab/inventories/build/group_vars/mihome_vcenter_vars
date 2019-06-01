@@ -4,7 +4,7 @@
 bootiso_filename: "{{ inventory_hostname }}.iso"
 
 deployment_vcenter: 172.16.21.30
-deployment_user: svc_vmdeployer@mega.lan
+deployment_user: svc_vmdeployer@mihome.lab
 deployment_pass: !vault |
       $ANSIBLE_VAULT;1.2;AES256;dev
       63623838643261306361616230353933613964636236643031303630376363363766353666323966
@@ -12,7 +12,7 @@ deployment_pass: !vault |
       32613163653266636631336263313933316639353035663735306661363462333537396666623262
       3462626363613366610a303235353164386565323231653836633237333237383937636532663239
       3965
-deployment_datacenter: mihome.lab
+deployment_datacenter: MihomeDC
 deployment_is_template: no
 deployment_folder: /vm
 deployment_iso_datastore: SkullDataStore

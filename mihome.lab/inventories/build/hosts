@@ -1,24 +1,24 @@
 [build_vms]
-VM_0011 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.111 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:11 netmask=255.255.255.0 guest_notes="Sandbox #11"
-VM_0012 esxi_host=172.16.21.21 datastore="ESK01_SSD_250G" vswitch="VM Network" netip=172.16.21.112 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:12 netmask=255.255.255.0 guest_notes="Sandbox #12"
-VM_0013 esxi_host=172.16.21.22 datastore="ESK02_SSD_250G" vswitch="VM Network" netip=172.16.21.113 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:13 netmask=255.255.255.0 guest_notes="Sandbox #13"
-VM_0014 esxi_host=172.16.21.23 datastore="ESK03_SSD_250G" vswitch="VM Network" netip=172.16.21.114 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:14 netmask=255.255.255.0 guest_notes="Sandbox #14"
+VM_0011 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.111 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:11 netmask=255.255.255.0 guest_notes="Sandbox #11"
+VM_0012 esxi_host=172.16.21.21 datastore="ESK01_SSD_250G" vswitch="VM Network" netip=172.16.21.112 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:12 netmask=255.255.255.0 guest_notes="Sandbox #12"
+VM_0013 esxi_host=172.16.21.22 datastore="ESK02_SSD_250G" vswitch="VM Network" netip=172.16.21.113 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:13 netmask=255.255.255.0 guest_notes="Sandbox #13"
+VM_0014 esxi_host=172.16.21.23 datastore="ESK03_SSD_250G" vswitch="VM Network" netip=172.16.21.114 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:14 netmask=255.255.255.0 guest_notes="Sandbox #14"
 
 [newbuild15_vm]
-VM_0015 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.115 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:15 netmask=255.255.255.0 guest_notes="Sandbox #15"
+VM_0015 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.115 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:15 netmask=255.255.255.0 guest_notes="Sandbox #15"
 
 [newbuild17_vm]
-VM_0017 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.117 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:17 netmask=255.255.255.0 guest_notes="Sandbox #17"
+VM_0017 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.117 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:17 netmask=255.255.255.0 guest_notes="Sandbox #17"
 
 [newbuild18_vm]
-VM_0018 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.118 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:18 netmask=255.255.255.0 guest_notes="Sandbox #18"
+VM_0018 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.118 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:18 netmask=255.255.255.0 guest_notes="Sandbox #18"
 
 [newbuild19_vm]
-VM_0019 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.119 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:19 netmask=255.255.255.0 guest_notes="Sandbox #19"
+VM_0019 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.119 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:19 netmask=255.255.255.0 guest_notes="Sandbox #19"
 
 [test_vm]
-TEST_0030 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.130 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:30 netmask=255.255.255.0 guest_notes="TEST 7 #30"
-TEST_0031 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.131 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:31 netmask=255.255.255.0 guest_notes="TEST 7 #31"
+TEST_0030 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.130 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:30 netmask=255.255.255.0 guest_notes="TEST 7 #30"
+TEST_0031 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.131 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:31 netmask=255.255.255.0 guest_notes="TEST 7 #31"
 
 [esxi_hosts]
 esk00 esxi_host=172.16.21.20
@@ -27,6 +27,9 @@ esk02 esxi_host=172.16.21.22
 esk03 esxi_host=172.16.21.23
 
 [infra_vm]
-INFRA_0001 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.101 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Infra Repo"
-INFRA_0002 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.102 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Infra DNS"
-INFRA_0003 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.103 netgw=172.16.21.1 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Infra Config manager"
+INFRA_0001 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.101 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:01 netmask=255.255.255.0 guest_notes="Infra Repo"
+INFRA_0002 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.102 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:02 netmask=255.255.255.0 guest_notes="Infra DNS"
+INFRA_0003 esxi_host=172.16.21.20 datastore="ESK00_SSD_250G" vswitch="VM Network" netip=172.16.21.103 netgw=172.16.21.10 mac=aa:bb:cc:dd:ee:03 netmask=255.255.255.0 guest_notes="Infra Config manager"
+
+[unas00_hw]
+unas00 netdev=enp0s20f1 netvlan=21 netip=172.16.21.19 netgw=172.16.21.10 netmask=255.255.255.0 os_disk=sdf

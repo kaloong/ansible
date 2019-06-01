@@ -7,6 +7,9 @@ keyboard 'uk'
 
 url --url="{{ iso_urls[ os_version ] }}"
 
+# Run the Setup Agent on first boot
+firstboot --enable
+
 # Using only primary disk, ignoring others
 ignoredisk --only-use=sda
 
@@ -15,14 +18,16 @@ lang en-GB.UTF-8
 
 # Setting up network interface to DHCP
 #network --bootproto=dhcp --ipv6=auto --hostname=centos-ks.local --activate
-network --hostname {{ inventory_hostname }} --device=eth0 --bootproto=static --ip {{ netip }} --netmask {{ netmask }} --gateway {{ netgw }} --nameserver 172.16.30.100
+network --bootproto=static --device={{ netdev }}.{{ netvlan }} --bootproto=static --ip {{ netip }} --netmask {{ netmask }} --gateway {{ netgw }} --nameserver 172.16.30.100 --activate --vlanid={{ netvlan }}
+network --hostname {{ inventory_hostname }}
 
 # Root password (remember that plaintext only for information purposes)
-rootpw --plaintext centos
+rootpw --plaintext t00r
 #rootpw --iscrypted $1$RooHER1A$cura3mrq43QyeXMxHt/Mt. 
 
-# Setting up firewall and enabling SSH for remote management
-firewall --enabled --service=ssh
+# System services
+services --enabled="chronyd"
+services --enabled="sshd"
 
 # Setting timezone
 timezone Europe/London --isUtc
@@ -31,12 +36,26 @@ timezone Europe/London --isUtc
 selinux --enforcing
 
 # Setting up MBR
+# Check if variable is defined and if its not empty
+{% if os_disk is defined and os_disk|length %}
+bootloader --location=mbr --driveorder={{os_disk}}
+{% else %}
 bootloader --location=mbr --driveorder=sda
-
+{% endif %}
 # Setting up Logical Volume Manager and autopartitioning
 clearpart --all --drives=sda --initlabel
-autopart --type=lvm
-
+# Partition clearing information
+part /boot --fstype xfs --size=500
+part swap --size=8192
+{% if os_disk is defined and os_disk|length %}
+part pv.01 --size=1000 --grow --ondisk={{os_disk}}
+{% else %}
+part pv.01 --size=1000 --grow --ondisk=sda
+{% endif %}
+volgroup vgos pv.01
+logvol / --vgname=vgos --fstype=xfs --size=51200 --name=lv_root
+logvol /home --vgname=vgos --fstype=xfs --size=10240 --name=lv_tmp
+logvol /var --vgname=vgos --fstype=xfs --size=10240 --name=lv_var
 # Eject cdrom and reboot
 reboot --eject
 
@@ -45,11 +64,29 @@ skipx
 
 # Installing only packages for minimal install 
 %packages
-@Core
+@^minimal
+@core
 chrony
+kexec-tools
+screen
+vim
+ipython
+tree
+wget
 %end
 
 
 #%post --log=/root/ks-post.log
 #/usr/sbin/subscription-manager register --username=admin@example.com --password=secret --serverurl=sam-server.example.com --org="Admin Group" --environment="Dev"
 #%end
+
+%addon com_redhat_kdump --enable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end
+

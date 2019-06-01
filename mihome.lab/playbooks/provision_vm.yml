@@ -1,5 +1,5 @@
 ---
-- hosts: newbuild15_vm
+- hosts: spacewalk_vm
   #- hosts: infra_vm
   vars_files: 
     - ../inventories/build/group_vars/mihome_vcenter_vars
@@ -7,7 +7,7 @@
   gather_facts: true
   connection: local
   roles: 
-    - { role: "../roles/build_bootiso", os_version: "6.10" } # Generate bootisos
-    - { role: "../roles/transfer_bootiso", transfer_via: "nfs" } # Transfer bootisos to DataStore
-    - { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } } # Deploy VMs with bootisos
+  #    - { role: "../roles/build_bootiso", os_version: "7" } # Generate bootisos
+  # - { role: "../roles/transfer_bootiso", transfer_via: "nfs" } # Transfer bootisos to DataStore
+  #  - { role: "../roles/vmware_adm", tags: "deploy_vm", vars: { guest_vm_state : "poweredon" } } # Deploy VMs with bootisos
     - { role: "../roles/vmware_adm", platform_target: "vm", action: "create" , vars: { guest_vm_state : "poweredon" } } # Deploy VMs with bootisos

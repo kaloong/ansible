@@ -13,21 +13,28 @@
   setup:
 
 - name: Create tmp directory
-  shell: mktemp -d
-  register: tmpout
-  tags:
-    - build_bootiso 
-
-- name: 
-  stat: 
-    path: "{{ tmpout.stdout }}"
+  #shell: mktemp -d -t centos
+  #shell: mkdir -p "/tmp/centos{{ os_version }}"
+  file: 
+    path: "/tmp/centos{{ os_version }}"
+    state: directory
+    mode: 0755
   register: tmpdir
   tags:
     - build_bootiso 
+#  when: 
+#  - cache is defined and cache == "true"
+
+#- name: 
+#  stat: 
+#    path: "{{ tmpout.stdout }}"
+#  register: tmpdir
+#  tags:
+#    - build_bootiso 
 
 - debug:
-    msg: "New directory  {{ tmpdir }}"
-  when: tmpdir.stat.exists
+    msg: "New directory  {{ tmpdir.path }}"
+    #when: tmpout.stat.exists
   tags:
     - build_bootiso 
 
@@ -55,7 +62,7 @@
 
 - name: Create isolinux directory in tmp
   file:
-    path: "{{ tmpdir.stat.path }}/isolinux"
+    path: "{{ tmpdir.path }}/isolinux"
     state: directory
     mode: 0755
   register: isolinux_target_dir  
@@ -74,6 +81,7 @@
   get_url: 
     url: "{{ iso_urls[ os_version ] }}/isolinux/{{ item }}"
     dest: "{{ isolinux_target_dir.path }}"
+    force: false
   with_items: "{{ isolinux_boot_files[ os_version.split('.')[0] ] }}"
   when: 
     - os_version is defined 
@@ -121,7 +129,7 @@
     - build_bootiso 
 
 - name: Generate boot ISO in ClearLinux
-  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  shell: xorrisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.path }}"
   register: build_out
   when: 
     - ansible_os_family == "ClearLinux"
@@ -130,7 +138,7 @@
     - build_bootiso 
 
 - name: Generate boot ISO in OSX
-  shell: mkisofs -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -J -r  "{{ tmpdir.stat.path }}"
+  shell: mkisofs -T -R -V "OEMDRV" -o "{{ bootiso_local_dir }}/{{ bootiso_filename }}" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -J "{{ tmpdir.path }}"
   register: build_out
   when: 
     - ansible_os_family == "Darwin"
