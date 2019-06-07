@@ -1,8 +1,22 @@
 ---
-- name: Add OS users
-  include_tasks: subtasks/add_os_users.yml
-  when: action is "os"
+- name: Adding xxxman user
+  import_tasks: os/xxxman.yml
+  when: target_user == "xxxman"
 
-- name: Add Satman user
-  include_tasks: subtasks/add_satman_user.yml
-  when: action is "satman"
+- name: Adding other os users
+  import_tasks: os/users.yml
+  when: ( target_user == "osusers" )
+  #when: host_state is defined and host_force is defined
+  #
+- name: Adding restricted users as default
+  #include_vars:
+  #  file: user_admins
+  import_tasks: os/restricted.yml
+  when: ( target_user == "restricted" )
+
+- name: Adding unix adm users as default
+  #include_vars:
+  #  file: users_unix_admins
+  import_tasks: os/users.yml
+  when: ( target_user == "unix" or target_user is undefined )
+
