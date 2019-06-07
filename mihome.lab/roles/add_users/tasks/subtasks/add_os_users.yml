@@ -1,23 +1,64 @@
 ---
-- name: Add user
+- name: Maintain Group
+  group:
+    name: "{{item.user_group }}"
+    state: "{{ item.user_state }}"
+  with_items: "{{ users }}"
+  when:
+    - ( "{{ item.user_group }}" is defined )
+    - ( "{{ item.user_state }}" is defined )
+    - ( "{{ item.user_group }}" != "wheel" )
+
+- name: Maintain user (Add with passwd)
   user:
     name: "{{ item.user_name }}"
+    group: "{{ item.user_group }}"
     comment: "{{ item.user_comment }}"
+    password: "{{ item.user_passwd | password_hash('sha512','mysalt') }}"
+    generate_ssh_key: "{{ item.user_keygen }}"
     #expires: -1
     state: "{{ item.user_state }}"
   with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" is defined )
+  when: 
+    - ( "{{ item.user_passwd }}" != "" )
+    - ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" == "present" )
+
+- name: Maintain user (Add no passwd provided)
+  user:
+    name: "{{ item.user_name }}"
+    group: "{{ item.user_group }}"
+    comment: "{{ item.user_comment }}"
+    generate_ssh_key: "{{ item.user_keygen }}"
+    #expires: -1
+    state: "{{ item.user_state }}"
+  with_items: "{{ users }}"
+  when: 
+    - ( "{{ item.user_passwd }}" == "" )
+    - ( "{{ item.user_name }}" is defined and "{{ item.user_comment }}" is defined and "{{ item.user_state }}" == "present" )
+
+- name: Maintain user (Remove)
+  user:
+    name: "{{ item.user_name }}"
+    #expires: -1
+    remove: yes
+    state: "{{ item.user_state }}"
+  with_items: "{{ users }}"
+  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "absent"  )
 
 - name: Create .ssh directory
   file:
     path: "{{ item.user_home }}/.ssh"
     state: directory
     owner: "{{ item.user_name }}"
-    group: "{{ item.user_name }}"
+    group: "{{ item.user_group }}"
     mode: 0700
     recurse: no
   with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_home }}" is defined and "{{ item.user_state }}" == "present" )
+  when: 
+    - ( "{{ item.user_name }}" is defined )
+    - ( "{{ item.user_home }}" is defined )
+    - ( "{{ item.user_state }}" == "present" )
+    - ( "{{ item.user_keygen }}" == "no" )
 
 #- name: Generate ssh key
 #  openssh_keypair:
@@ -26,17 +67,31 @@
 #    type: rsa
 #  when: ansible_version.full is version_compare('2.8','>=')
 
+- name: Allow 'xxxman' sudo passwordless
+  copy:
+    src: sudoers_xxxman
+    dest: /etc/sudoers.d/xxxman
+    owner: root
+    group: root
+    mode: 0400
+  tags:
+    - add_satman
 
-- name: Allow "{{ item.user_name }}" sudo passwordless
-  lineinfile:
-    path: /etc/sudoers
-    line: "{{ item.user_name }} ALL=NOPASSWD: ALL"
-    validate: '/usr/sbin/visudo -cf %s'
-    state: "{{ item.user_state }}"
-  with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined )
+#- name: Allow "{{ item.user_name }}" sudo passwordless
+#  lineinfile:
+#    path: /etc/sudoers
+#    line: "{{ item.user_name }} ALL=NOPASSWD: ALL"
+#    validate: '/usr/sbin/visudo -cf %s'
+#    state: "{{ item.user_state }}"
+#    state: absent
+#  with_items: "{{ users }}"
+#  when: 
+#    - ( "{{ item.user_name }}" is defined )
+#    - ( "{{ item.user_name }}" == "xxxman" ) or ( "{{ item.user_name }}" == "xxxadmin" )
+#  tags: 
+#    - sudoers
 
 - name: Reenforce user account expiry.
-  command: /usr/bin/passwd -x -1 "{{ item.user_name }}"
+  command: /usr/bin/chage -M "{{ item.user_passwd_expiry}}" "{{ item.user_name }}"
   with_items: "{{ users }}"
-  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "present" )
+  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "present" ) 
