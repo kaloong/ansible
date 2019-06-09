@@ -1,0 +1,10 @@
+---
+- name: Create user
+  import_tasks: create.yml
+  when: action == "adduser"
+  tags: rbash_adduser
+
+- name: Remove user
+  import_tasks: delete.yml
+  when: action == "deluser"
+  tags: rbash_deluser

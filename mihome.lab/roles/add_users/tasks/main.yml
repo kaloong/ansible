@@ -8,12 +8,6 @@
   when: ( target_user == "osusers" )
   #when: host_state is defined and host_force is defined
   #
-- name: Adding restricted users as default
-  #include_vars:
-  #  file: user_admins
-  import_tasks: os/restricted.yml
-  when: ( target_user == "restricted" )
-
 - name: Adding unix adm users as default
   #include_vars:
   #  file: users_unix_admins

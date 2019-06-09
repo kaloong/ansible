@@ -1,3 +1,0 @@
-restricted_commands:
-  - { command: "/bin/ssh", mode: "0755" }
- # - { command: "/usr/bin/ls", mode: "0755" }

@@ -15,3 +15,6 @@ localhost
 
 [sf]
 localhost
+
+[TEST]
+172.16.30.233

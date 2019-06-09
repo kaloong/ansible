@@ -1,0 +1,16 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+SCRIPT_TIMER={{ typescript_logs }}/ssh-`/usr/bin/date +%d-%m-%Y-%Hh-%Mm-%Ss`-`/usr/bin/whoami`-$$.timer
+SCRIPT_OUTFILE={{ typescript_logs }}/ssh-`/usr/bin/date +%d-%m-%Y-%Hh-%Mm-%Ss`-`/usr/bin/whoami`-$$.log
+/bin/cat /etc/redhat-release
+exec /usr/bin/script -f -q $SCRIPT_OUTFILE --timing=$SCRIPT_TIMER
+
+alias exit="exit && exit"
+PATH=$HOME/bin
+export PATH

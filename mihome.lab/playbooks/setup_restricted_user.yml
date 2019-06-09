@@ -1,0 +1,8 @@
+---
+- hosts: TEST
+  vars_files:
+    - ../inventories/dev/group_vars/users_restricted
+  #  - ../inventories/dev/group_vars/vars_restricted
+  become: true
+  roles:
+    - { role: ../roles/rbash, action: adduser }             # Linux roles
