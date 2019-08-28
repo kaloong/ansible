@@ -1,0 +1,8 @@
+---
+- name: Apply template
+  template:
+    src: "{{role_path}}/templates/test.conf.j2"
+    dest: /tmp/test.conf
+  with_subelements:
+    - backups
+    - types

@@ -1,0 +1,9 @@
+---
+- hosts: 127.0.0.1
+  vars_files: 
+    - ../inventories/build/group_vars/backup_vars
+  #become: true
+  gather_facts: true
+  connection: local
+  roles: 
+   - { role: "../roles/template_test" }

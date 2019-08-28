@@ -1,0 +1,6 @@
+backups:
+  system1:
+    - { type: daily, user: admin3 }
+    - { type: monthly, user: admin4 }
+  system2:
+    - { type: daily, user: admin5 }
