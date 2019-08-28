@@ -1,0 +1,60 @@
+---
+- name: Check which user exists
+  getent:
+    database: passwd
+    key: "{{ item.user_name }}"
+  ignore_errors: yes
+  with_items:
+    - "{{ restricted_accounts }}"
+  register: restricted_getent
+  tags:
+    - deluser
+
+- debug:
+    msg: "{{ item }}"
+    #msg: "{{ item['results'].0 }}"
+  with_items:
+    - "{{ restricted_getent['results'] }}"
+  tags:
+    - deluser
+
+- name: Remove .bashrc immutable attribute
+  file:
+    path: "/home/{{ item['item'].user_name }}/.bashrc" 
+    attributes: "-i"
+  when: ( not item.failed )
+  with_items:
+    - "{{ restricted_getent['results'] }}"
+  tags:
+    - deluser
+
+- name: Remove .bash_profile immutable attribute
+  file:
+    path: "/home/{{ item['item'].user_name }}/.bash_profile" 
+    attributes: "-i"
+  when: ( not item.failed )
+  with_items:
+    - "{{ restricted_getent['results'] }}"
+  tags:
+    - deluser
+
+- name: Remove Restricted shell for user.
+  user:
+    name: "{{ item['item'].user_name }}"
+    state: absent
+    remove: true
+  when: ( not item.failed )
+  with_items:
+    - "{{ restricted_getent['results'] }}"
+  tags:
+    - deluser
+
+- name: Remove Restricted user home directory.
+  file:
+    path: "/home/{{ item['item'].user_name }}"
+    state: absent
+  when: ( not item.failed )
+  with_items:
+    - "{{ restricted_getent['results'] }}"
+  tags:
+    - deluser

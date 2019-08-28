@@ -1,0 +1,181 @@
+---
+- name: Check if rbash exists.
+  stat:
+    path: /bin/rbash
+  register: sym
+  tags:
+    - os_restricted_shell
+
+- name: Make rbash
+  copy:
+    remote_src: yes
+    src: /bin/bash
+    dest: /bin/rbash
+    owner: root
+    group: root
+    mode: 0755
+  when: ( sym.stat.exists == False )
+  tags:
+    - os_restricted_shell
+
+- name: Create home bin directory
+  file:
+    path: "/var/log/sessions"
+    owner: root
+    group: root
+    state: directory
+  with_items:
+  tags:
+    - os_restricted_shell
+
+- name: Setup Restricted shell for user.
+  user:
+    name: "{{ item.user_name }}"
+    shell: /bin/rbash
+    comment: "{{ item.user_comment }}"
+    password: "{{ item.user_passwd | password_hash('sha512','mysalt') }}"
+    groups: "{{ item.user_groups }}"
+    state: "{{ item.user_state }}"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name  is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Reenforce user account expiry.
+  command: /usr/bin/chage -M "{{ item.user_passwd_expiry }}" "{{ item.user_name }}"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Create home bin directory
+  file:
+    path: "/home/{{ item.user_name }}/bin"
+    owner: "{{ item.user_name }}"
+    group: "{{ item.user_groups }}"
+    state: directory
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Copy commands to restricted shell bin folder
+  copy:
+    remote_src: yes
+    src: "{{ item[1].command }}"
+    dest: "/home/{{ item[0].user_name }}/bin/"
+    owner: "{{ item[0].user_name }}"
+    group: "{{ item[0].user_name }}"
+    mode: "{{ item[1].mode }}"
+  with_nested:
+    - "{{ restricted_accounts }}"
+    - "{{ restricted_commands }}"
+  when: ( item[0].user_name is defined and item[0].user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+#- name: Update .bash_profile
+#  lineinfile:
+#    path: "/home/{{ item.user_name }}/.bash_profile" 
+#    regexp: '^PATH'
+#    line: 'PATH=$HOME/bin'
+#  with_items:
+#    - "{{ restricted_accounts }}"
+#  when: ( "{{ item.user_name }}" is defined and "{{ item.user_state }}" == "present" )
+#  tags:
+#    - os_restricted_shell
+  
+- name: Copy .bash_profile
+  copy:
+    src: "{{ role_path }}/files/restricted_bash_profile" 
+    dest: "/home/{{ item.user_name }}/.bash_profile" 
+    owner: "{{ item.user_name}}"
+    group: "{{ item.user_group}}"
+    mode: 0644 
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Update .bash_profile attribute to immutable
+  file:
+    path: "/home/{{ item.user_name }}/.bash_profile" 
+    attributes: "i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Copy .bashrc
+  copy:
+    src: "{{ role_path }}/files/restricted_bashrc" 
+    dest: "/home/{{ item.user_name }}/.bashrc" 
+    owner: "{{ item.user_name}}"
+    group: "{{ item.user_group}}"
+    mode: 0644 
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+- name: Update .bashrc attribute to immutable
+  file:
+    path: "/home/{{ item.user_name }}/.bashrc" 
+    attributes: "i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "present" )
+  tags:
+    - os_restricted_shell
+
+
+- name: Remove .bashrc immutable attribute
+  file:
+    path: "/home/{{ item.user_name }}/.bashrc" 
+    attributes: "-i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "absent" )
+  tags:
+    - os_restricted_shell
+
+- name: Remove .bash_profile immutable attribute
+  file:
+    path: "/home/{{ item.user_name }}/.bash_profile" 
+    attributes: "-i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined and item.user_state == "absent" )
+  tags:
+    - os_restricted_shell
+
+- name: Remove Restricted shell for user.
+  user:
+    name: "{{ item.user_name }}"
+    shell: /bin/rbash
+    comment: "{{ item.user_comment }}"
+    password: "{{ item.user_passwd | password_hash('sha512','mysalt') }}"
+    groups: "{{ item.user_groups }}"
+    state: "{{ item.user_state }}"
+    remove: true
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name  is defined and item.user_state == "absent" )
+  tags:
+    - os_restricted_shell
+
+- name: Remove Restricted user home directory.
+  file:
+    path: "/home/{{ item.user_name }}"
+    state: "{{ item.user_state }}"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name  is defined and item.user_state == "absent" )
+  tags:
+    - os_restricted_shell

@@ -1,0 +1,179 @@
+---
+- name: Check if rbash exists.
+  stat:
+    path: /bin/rbash
+  register: sym
+  tags:
+    - adduser
+
+- name: Make rbash
+  copy:
+    remote_src: yes
+    src: /bin/bash
+    dest: /bin/rbash
+    owner: root
+    group: root
+    mode: 0755
+  when: ( sym.stat.exists == False )
+  tags:
+    - adduser
+
+- name: Create home typescript directory
+  file:
+    path: "{{ typescript_logs }}"
+    owner: "{{ typescript_owner }}"
+    group: "{{ typescript_group }}"
+    mode: 0770
+    state: directory
+  tags:
+    - adduser
+
+- name: Check which user exists
+  getent:
+    database: passwd
+    key: "{{ item.user_name }}"
+  ignore_errors: yes
+  with_items:
+    - "{{ restricted_accounts }}"
+  register: restricted_getent
+  tags:
+    - adduser
+
+- debug:
+    msg: "{{ item }}"
+  with_items:
+    - "{{ restricted_getent }}"
+  tags:
+    - adduser
+
+- name: Setup Restricted shell for user.
+  user:
+    name: "{{ item.user_name }}"
+    shell: /bin/rbash
+    comment: "{{ item.user_comment }}"
+    password: "{{ item.user_passwd | password_hash('sha512','mysalt') }}"
+    groups: "{{ item.user_groups }}"
+    state: present
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined  )
+  tags:
+    - adduser
+
+- name: Reenforce user account expiry.
+  command: /usr/bin/chage -M "{{ item.user_passwd_expiry }}" "{{ item.user_name }}"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser
+
+- name: Create home bin directory
+  file:
+    path: "/home/{{ item.user_name }}/bin"
+    owner: "{{ item.user_name }}"
+    group: "{{ item.user_groups }}"
+    state: directory
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser
+
+- name: Copy commands to restricted shell bin folder
+  copy:
+    remote_src: yes
+    src: "{{ item[1].command }}"
+    dest: "/home/{{ item[0].user_name }}/bin/"
+    owner: "{{ item[0].user_name }}"
+    group: "{{ item[0].user_name }}"
+    mode: "{{ item[1].mode }}"
+  with_nested:
+    - "{{ restricted_accounts }}"
+    - "{{ restricted_commands }}"
+  when: ( item[0].user_name is defined )
+  tags:
+    - adduser
+
+#- name: Update .bash_profile
+#  lineinfile:
+#    path: "/home/{{ item.user_name }}/.bash_profile" 
+#    regexp: '^PATH'
+#    line: 'PATH=$HOME/bin'
+#  with_items:
+#    - "{{ restricted_accounts }}"
+#  when: ( "{{ item.user_name }}" is defined )
+#  tags:
+#    - restricted_shell
+  
+#- name: Copy .bash_profile
+#  copy:
+#    src: "{{ role_path }}/files/restricted_bash_profile" 
+#    dest: "/home/{{ item.user_name }}/.bash_profile" 
+#    owner: "{{ item.user_name}}"
+#    group: "{{ item.user_group}}"
+#    mode: 0644 
+#  with_items:
+#    - "{{ restricted_accounts }}"
+#  when: ( item.user_name is defined )
+#  tags:
+#    - restricted_shell
+
+- name: Copy .bash_profile
+  template:
+    src: "restricted_bash_profile.j2" 
+    dest: "/home/{{ item.user_name }}/.bash_profile" 
+    owner: "{{ item.user_name}}"
+    group: "{{ item.user_group}}"
+    mode: 0644 
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser
+
+- name: Update .bash_profile attribute to immutable
+  file:
+    path: "/home/{{ item.user_name }}/.bash_profile" 
+    attributes: "i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser
+
+#- name: Copy .bashrc
+#  copy:
+#    src: "{{ role_path }}/files/restricted_bashrc" 
+#    dest: "/home/{{ item.user_name }}/.bashrc" 
+#    owner: "{{ item.user_name}}"
+#    group: "{{ item.user_group}}"
+#    mode: 0644 
+#  with_items:
+#    - "{{ restricted_accounts }}"
+#  when: ( item.user_name is defined )
+#  tags:
+#    - restricted_shell
+
+- name: Copy .bashrc
+  template:
+    src: "restricted_bashrc.j2" 
+    dest: "/home/{{ item.user_name }}/.bashrc" 
+    owner: "{{ item.user_name}}"
+    group: "{{ item.user_group}}"
+    mode: 0644 
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser
+
+- name: Update .bashrc attribute to immutable
+  file:
+    path: "/home/{{ item.user_name }}/.bashrc" 
+    attributes: "i"
+  with_items:
+    - "{{ restricted_accounts }}"
+  when: ( item.user_name is defined )
+  tags:
+    - adduser

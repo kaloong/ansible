@@ -1,0 +1,9 @@
+---
+- hosts: unas00_hw
+  #  vars_files: 
+  #  - ../inventories/build/group_vars/mihome_vcenter_vars
+  #become: true
+  gather_facts: true
+  connection: local
+  roles: 
+    - { role: "../roles/k8s" }    # Generate bootisos

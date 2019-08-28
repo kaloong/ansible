@@ -1,0 +1,5 @@
+restricted_commands:
+  - { command: "/usr/bin/ssh", mode: "0755" }
+ # - { command: "/usr/bin/ls", mode: "0755" }
+
+typescript_logs: /var/log/sessions

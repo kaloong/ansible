@@ -1,0 +1,2 @@
+users:
+  - { user_name: adm_kaloong, user_group: wheel, user_home: /home/adm_kaloong, user_comment: "Kaloong Tsang", user_passwd: "xxxxxxxxxx", user_passwd_expiry: "28", user_keygen: yes, user_state: "present" } 

@@ -1,0 +1,3 @@
+restricted_accounts:
+  - { user_name: ruser1, user_group: ruser1, user_groups: rusers, user_home: /home/ruser1, user_comment: "Restricted user", user_passwd: "pass123", user_passwd_expiry: "28", user_keygen: yes }
+  - { user_name: ruser6, user_group: ruser6, user_groups: rusers, user_home: /home/ruser6, user_comment: "Restricted user", user_passwd: "pass123", user_passwd_expiry: "28", user_keygen: yes }
