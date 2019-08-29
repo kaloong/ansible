@@ -1,8 +1,8 @@
 ---
 - name: Apply template
   template:
-    src: "{{role_path}}/templates/test.conf.j2"
-    dest: /tmp/test.conf
+    src: "{{role_path}}/templates/{{item.1.tmpl}}"
+    dest: "/home/kaloong/tmp/{{item.1.tmpl | regex_replace('.j2') }}"
   with_subelements:
-    - backups
-    - types
+    - "{{ backups }}"
+    - backup
