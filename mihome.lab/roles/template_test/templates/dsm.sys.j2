@@ -1,0 +1,27 @@
+{% for i in backups %}
+{% if i['name'] == inventory_hostname %}
+DEFAULTServer         {{i['name']|upper}}
+
+{% for j in i.backup %}
+{% if ( j['type'] == "daily" or j['type'] == "monthly" or j['type'] == "ora_daily" or j['type'] == "ora_monthly" ) %}
+SErvername  {{ j['svr']|upper }}_{{ j['name'] |upper }}
+   NODename           {{ inventory_hostname|upper }}_{{ j['name'] |upper }}
+   COMMMethod         TCPip
+   TCPPort            {{ j['port'] }}
+   TCPServeraddress   {{ j['addr'] }}
+   MANAGEDServices    schedule
+   SCHEDMODe          POlling
+   QUERYSCHedperiod   1
+   SCHEDLOGName       /var/log/tsm/{{ j['svr']|lower }}_{{ j['name'] |lower }}_sched.log
+   SCHEDLOGRet        31 D
+   ERRORLOGName       /var/log/tsm/{{ j['svr']|lower }}_{{ j['name'] |lower }}_error.log
+   ERRORLOGRet        31 D
+   PASSWORDAccess     generate
+   *INCLExcl           /etc/tsm/inclexcl.{{ i['name']|lower }}
+   DOMain             ALL-LOCAL
+   DIRMc              DAILY_DIRMC
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}

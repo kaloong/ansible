@@ -1,0 +1,11 @@
+t.conf
+{% for i in backups %}
+{% if inventory_hostname == i['name'] %}
+hostname:   {{ i['name'] }}
+{% for j in i.backup %}
+backup  :   {{ j['type'] }}
+port    :   {{ j['port'] }}
+
+{% endfor %}
+{% endif %}
+{% endfor %}

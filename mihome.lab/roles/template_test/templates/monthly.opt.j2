@@ -1,0 +1,11 @@
+{% for i in backups %}
+{% if i['name'] == inventory_hostname %}
+{% for j in i.backup %}
+{% if j['type'] == "monthly" %}
+SErvername      {{ j['svr']|upper }}_{{ j['name'] |upper }}
+DATEformat      3
+QUIET
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
