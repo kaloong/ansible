@@ -1,0 +1,13 @@
+backups:
+  - name: system1 
+    backup:
+    - { type: sys,     tmpl: "dsm.sys.j2" }
+#    - { type: daily,   tmpl: "test_daily.conf.j2",   port: 1501 }
+#    - { type: monthly, tmpl: "test_monthly.conf.j2", port: 1502 }
+  - name: 127.0.0.1
+    backup:
+    - { type: sys,     tmpl: "dsm.sys.j2" }
+    - { type: daily,   name: "daily3",    tmpl: "daily.opt.j2", svr: "Backup03", addr: "backup03.test.lab",  port: 1503 }
+    - { type: monthly, name: "monthly4",  tmpl: "monthly.opt.j2", svr: "Backup04", addr: "backup04.test.lab",  port: 1504 }
+    - { type: ora_daily,   name: "ora_daily3",    tmpl: "ora_daily.opt.j2", svr: "Backup07", addr: "backup07.test.lab",  port: 1507 }
+    - { type: ora_monthly, name: "ora_monthly4",  tmpl: "ora_monthly.opt.j2", svr: "Backup08", addr: "backup08.test.lab",  port: 1508 }
