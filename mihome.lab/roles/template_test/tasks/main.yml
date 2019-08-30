@@ -1,8 +1,44 @@
 ---
+- name: Ensure tsm folder exist
+  file:
+    path: /etc/tsm
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+
 - name: Apply template
   template:
     src: "{{role_path}}/templates/{{item.1.tmpl}}"
-    dest: "/home/kaloong/tmp/{{item.1.tmpl | regex_replace('.j2') }}"
+    dest: "/etc/tsm/{{ ( item.1.type == 'sys' ) | ternary( item.1.svr, item.1.svr+'_'+item.1.name ) | upper }}.{{ ( item.1.type == 'sys' ) | ternary( 'sys', 'opt') }}"
   with_subelements:
     - "{{ backups }}"
     - backup
+
+- name: Create symlinks
+  file:
+    src:  "/etc/tsm/{{ ( item.1.type == 'sys' ) | ternary( item.1.svr, item.1.svr+'_'+item.1.name ) | upper }}.{{ ( item.1.type == 'sys' ) | ternary( 'sys', 'opt') }}"
+    dest: "/etc/tsm/{{ item.1.tmpl |  regex_replace('.j2') }}"
+    state: link
+    force: true
+  with_subelements:
+    - "{{ backups }}"
+    - backup
+
+- name: Overwrite /opt/tivoli symlinks
+  file:
+    src:  "/etc/tsm/{{ ( item.1.type == 'sys' ) | ternary( item.1.svr, item.1.svr+'_'+item.1.name ) | upper }}.{{ ( item.1.type == 'sys' ) | ternary( 'sys', 'opt') }}"
+    dest: "/opt/tivoli/tsm/client/ba/bin/{{ item.1.tmpl |  regex_replace('.j2') }}"
+    state: link
+    force: true
+  with_subelements:
+    - "{{ backups }}"
+    - backup
+
+- name: Trigger a restart
+  debug:
+    msg: "Trigger a restart vi handler"
+  notify:
+    - Reload config daemon
+    - Restart dsmcad
+  changed_when: true
