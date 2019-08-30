@@ -1,0 +1,11 @@
+---
+- name: Create lvm 
+  lvol:
+    vg: "{{item.1.vg}}"
+    lv: "{{ item.1.lv }}"
+    size: "{{ item.1.size }}"
+    active: "{{ item.1.active }}"
+  with_subelements:
+    - "{{ lvms }}"
+    - vols
+

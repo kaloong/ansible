@@ -1,0 +1,4 @@
+lvms:
+  - name: 127.0.0.1
+    vols:
+    - { type: "thin", vg: "vgos", lv: "swapextra", size: "1G", active: true }
