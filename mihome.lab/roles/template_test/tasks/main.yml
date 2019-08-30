@@ -7,6 +7,14 @@
     group: root
     mode: 0750
 
+- name: Ensure inclexcl file exist
+  file:
+    path: "/etc/tsm/inclexcl.{{ inventory_hostname.split('.')[0] }}"
+    owner: root
+    group: root
+    mode: 0600
+    state: touch
+
 - name: Apply template
   template:
     src: "{{role_path}}/templates/{{item.1.tmpl}}"
