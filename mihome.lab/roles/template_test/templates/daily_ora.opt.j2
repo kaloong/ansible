@@ -1,7 +1,7 @@
 {% for i in backups %}
 {% if i['name'] == inventory_hostname %}
 {% for j in i.backup %}
-{% if j['type'] == "ora_daily" %}
+{% if j['type'] == "daily_ora" %}
 SErvername      {{ j['svr']|upper }}_{{ j['name'] |upper }}
 DATEformat      3
 QUIET
