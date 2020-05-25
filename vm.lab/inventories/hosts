@@ -2,6 +2,7 @@
 elb
 app
 db
+other
 
 [elb]
 elb01.vm.lab
